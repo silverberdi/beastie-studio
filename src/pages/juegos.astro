@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Placeholder from '../components/Placeholder.astro';
+import GameCard from '../components/GameCard.astro';
+import { games } from '../data/games.js';
 ---
-<BaseLayout title="Juegos"><Placeholder eyebrow="Catálogo" title="Juegos para descubrir, pensar y compartir." description="El catálogo de Beastie Studio se incorporará aquí con información verificada de cada juego." /></BaseLayout>
+<BaseLayout title="Juegos" description="Conoce Múltiplo y Boxio, los juegos de Beastie Studio."><section class="page"><div class="shell"><p class="eyebrow">Catálogo</p><h1>Juegos para descubrir, pensar y compartir.</h1><p class="lead">Algunos nacen para acompañar el aprendizaje; otros nos invitan a pensar una jugada más. Todos están hechos con cariño.</p><div class="card-grid" style="margin-top:4rem">{games.map((game) => <GameCard game={game} />)}</div></div></section></BaseLayout>

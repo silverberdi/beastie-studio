@@ -1,5 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Placeholder from '../components/Placeholder.astro';
+import GameCard from '../components/GameCard.astro';
+import { games } from '../data/games.js';
 ---
-<BaseLayout title="Inicio"><Placeholder eyebrow="Beastie Studio" title="Descubrir. Pensar. Compartir." description="Creamos juegos para despertar la curiosidad, disfrutar nuevos retos y compartir buenos momentos." /></BaseLayout>
+<BaseLayout title="Inicio" description="Descubre los juegos de Beastie Studio: aprender, pensar y compartir juegos hechos con cariño.">
+  <section class="hero"><div class="shell"><p class="eyebrow">Beastie Studio</p><h1>Descubrir. Pensar. Compartir.</h1><p class="lead">Creamos juegos para despertar la curiosidad, disfrutar nuevos retos y compartir buenos momentos.</p><div class="button-row"><a class="button button-primary" href="/juegos">Explorar juegos <span aria-hidden="true">→</span></a><a class="button button-secondary" href="/nosotros">Conoce Beastie Studio</a></div></div></section>
+  <section class="section"><div class="shell"><div class="section-heading"><p class="eyebrow">Juegos</p><h2>Juegos para descubrir, pensar y compartir.</h2><p>Algunos nacen para acompañar el aprendizaje; otros nos invitan a pensar una jugada más. Todos están hechos con cariño.</p></div><div class="card-grid">{games.map((game) => <GameCard game={game} />)}</div></div></section>
+  <section class="section section-tint"><div class="shell"><div class="section-heading"><p class="eyebrow">Novedades</p><h2>Historias, ideas y avances detrás de nuestros juegos.</h2><a class="button button-secondary" href="/novedades">Leer novedades <span aria-hidden="true">→</span></a></div></div></section>
+  <section class="section"><div class="shell"><div class="section-heading"><p class="eyebrow">El estudio</p><h2>Un estudio pequeño con ideas claras.</h2><p>Beastie Studio es un proyecto independiente. Creemos que los juegos pueden despertar curiosidad, conectar personas y hacer que pensar sea parte de la diversión.</p><a class="button button-secondary" href="/nosotros">Conoce nuestra forma de crear <span aria-hidden="true">→</span></a></div></div></section>
+  <section class="section section-tint"><div class="shell"><div class="section-heading"><p class="eyebrow">Apoyo</p><h2>Ayúdanos a seguir creando.</h2><p>Si disfrutas nuestros juegos, puedes apoyar el proyecto o compartirlo con otras personas.</p><a class="button button-primary" href="/apoyanos">Conoce cómo apoyar <span aria-hidden="true">→</span></a></div></div></section>
+</BaseLayout>
