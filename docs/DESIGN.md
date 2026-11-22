@@ -1,7 +1,7 @@
 # Diseño e identidad visual
 
 ## Fuente visual
-Proyecto Stitch: https://stitch.withgoogle.com/projects/14862419422026667342
+Proyecto Stitch: docs/design/references/README.md
 
 Pantallas encargadas: Inicio desktop/móvil, Juegos desktop, Nosotros desktop, Novedades desktop/móvil, artículo de Múltiplo desktop, Apóyanos desktop/móvil. **El agente debe comprobar qué capturas y HTML de referencia están efectivamente adjuntos antes de considerarlos accesibles.** Las pantallas de Stitch NO son prueba de que el código esté integrado en este repositorio.
 
@@ -29,3 +29,6 @@ Hero legible + catálogo destacado como protagonista. Novedades con tarjetas, ca
 
 ## Regla para Mini Me
 Donde falte una referencia visual o archivo definitivo, conservar un placeholder explícito y reportar dependencia. No sustituir la falta de assets por generación no autorizada.
+
+## Fuente visual local para Mini Me
+**Usar exclusivamente** los archivos en `docs/design/references/`, inventariados en `docs/design/references/README.md`. No consultar Stitch. Captura de Inicio desktop pendiente, pero su HTML de referencia existe. Los recursos de marca definitivos siguen pendientes.
