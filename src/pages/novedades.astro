@@ -1,5 +1,51 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Placeholder from '../components/Placeholder.astro';
+import NewsCard from '../components/NewsCard.astro';
+
+const articles = (await getCollection('news')).sort((a, b) => a.data.title.localeCompare(b.data.title, 'es'));
+const featured = articles.find((article) => article.data.slug === 'que-es-beastie-studio') ?? articles[0];
+const cards = articles.filter((article) => article.id !== featured?.id);
+const categories = [...new Set(articles.map((article) => article.data.category))];
 ---
-<BaseLayout title="Novedades"><Placeholder eyebrow="Novedades" title="Historias, ideas y avances." description="Las novedades y artículos aparecerán aquí cuando tengan revisión editorial y fechas verificadas." /></BaseLayout>
+
+<BaseLayout title="Novedades" description="Historias, ideas y avances detrás de los juegos de Beastie Studio.">
+  <section class="page news-index">
+    <div class="shell">
+      <header class="section-heading"><p class="eyebrow">Novedades</p><h1>Historias, ideas y avances.</h1><p>Un espacio para descubrir cómo pensamos y hacemos nuestros juegos.</p></header>
+      <div class="category-filter" role="group" aria-label="Filtrar artículos por categoría">
+        <span class="filter-label" id="filter-label">Explorar por tema</span>
+        <div class="filter-controls" aria-labelledby="filter-label">
+          <button class="filter-button is-selected" type="button" data-filter="all" aria-pressed="true">Todos <span class="filter-count">{articles.length}</span></button>
+          {categories.map((category) => <button class="filter-button" type="button" data-filter={category} aria-pressed="false">{category} <span class="filter-count">{articles.filter((article) => article.data.category === category).length}</span></button>)}
+        </div>
+        <p class="filter-status" role="status" aria-live="polite">Mostrando todos los artículos.</p>
+      </div>
+      {featured && <section class="featured-news" aria-labelledby="featured-title"><p class="eyebrow">Artículo destacado</p><div id="featured-title"><NewsCard article={featured} featured /></div></section>}
+      <section class="news-list" aria-labelledby="all-news-title"><div class="section-heading"><p class="eyebrow">Archivo</p><h2 id="all-news-title">Todas las historias</h2></div><div class="card-grid" id="news-grid">{cards.map((article) => <NewsCard article={article} />)}</div></section>
+    </div>
+  </section>
+  <script>
+    const newsFilterButtons = [...document.querySelectorAll('.filter-button')];
+    const newsCards = [...document.querySelectorAll('.news-card')];
+    const newsFilterStatus = document.querySelector('.filter-status');
+    const featuredSection = document.querySelector('.featured-news');
+    function applyFilter(filter) {
+      let visible = 0;
+      newsCards.forEach((card) => {
+        const matches = filter === 'all' || card.dataset.category === filter;
+        card.hidden = !matches;
+        if (matches) visible += 1;
+      });
+      if (featuredSection) featuredSection.hidden = filter !== 'all' && featuredSection.querySelector('.news-card')?.dataset.category !== filter;
+      newsFilterButtons.forEach((button) => {
+        const selected = button.dataset.filter === filter;
+        button.classList.toggle('is-selected', selected);
+        button.setAttribute('aria-pressed', String(selected));
+      });
+      const label = filter === 'all' ? 'todos los artículos' : `los artículos de ${filter}`;
+      if (newsFilterStatus) newsFilterStatus.textContent = `Mostrando ${visible + (featuredSection && !featuredSection.hidden ? 1 : 0)} ${label}.`;
+    }
+    newsFilterButtons.forEach((button) => button.addEventListener('click', () => applyFilter(button.dataset.filter)));
+  </script>
+</BaseLayout>
