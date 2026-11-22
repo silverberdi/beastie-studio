@@ -34,13 +34,13 @@ Estas ilustraciones son **conceptuales**: no deben presentarse como pantallazos 
 
 ## Verificación de incorporación (22 de noviembre de 2026)
 
-Las nueve referencias de pantallas (Inicio escritorio reconstruible desde 13 fragmentos, las otras ocho en PNG) y las tres ilustraciones conceptuales están versionadas. El commit `be8c901fdeb2d6d1669e4604c26791b72039d434` incorporó los seis PNG faltantes. **Esto no confirma la incorporación del logo/favicón de producción**, que sigue siendo una dependencia separada.
+Las nueve referencias de pantallas (Inicio escritorio reconstruible desde 13 fragmentos, las otras ocho en PNG) y las tres ilustraciones conceptuales están versionadas. El commit `be8c901fdeb2d6d1669e4604c26791b72039d434` incorporó los seis PNG faltantes. **Actualización posterior (22 nov 2026):** logo y favicon de producción ya están versionados en `public/assets/brand/` y `public/`; tamaños contrastados con el manifiesto.
 
 ## Logo final
-La marca horizontal aprobada por el propietario **todavía no está incorporada a este directorio**. Se requiere el archivo de imagen aprobado, sin regenerarlo ni reinterpretarlo. El isotipo tiene una B terracota con ojo azul y un ala izquierda; a su derecha el texto COMPLETO BEASTIE en negro y STUDIO en azul con adornos terracota. Favicon sin ala. No considerar finalizada la integración de marca mientras falte este archivo fuente.
+La marca horizontal aprobada está incorporada como asset de producción en `public/assets/brand/beastie-logo-approved.png`, **no en este directorio de referencias**. Utilizar el archivo aprobado, sin regenerarlo ni reinterpretarlo. El isotipo tiene una B terracota con ojo azul y un ala izquierda; a su derecha el texto COMPLETO BEASTIE en negro y STUDIO en azul con adornos terracota. Favicon sin ala. El archivo fuente ya está versionado en GitHub; verificar SHA-256 contra `public/assets/brand/manifest.json` durante la integración.
 
 ## Consumo por issues
-- #1: ejecutar `restore-home-desktop.py`, después usar `home-desktop.png`, `home-mobile.png`, `home-desktop.html` y las demás pantallas para header/footer; logo fuente pendiente.
+- #1: ejecutar `restore-home-desktop.py`, después usar `home-desktop.png`, `home-mobile.png`, `home-desktop.html` y las demás pantallas para header/footer; logo fuente en `public/assets/brand/beastie-logo-approved.png`.
 - #2: ejecutar `restore-home-desktop.py`, después usar `home-desktop.png`, `juegos-desktop.png`, `nosotros-desktop.png`, `home-mobile.png`, `home-desktop.html` e ilustraciones de juegos.
 - #3: `novedades-desktop.png`, `novedades-mobile.png`, `articulo-multiplo-desktop.png`.
 - #4: `apoyanos-desktop.png`, `apoyanos-mobile.png`, `illustration-apoyanos.png`.
