@@ -5,7 +5,7 @@ Se recibieron dos archivos aprobados por el propietario:
 - **Logo horizontal**: `beastie-logo-approved.png`; composición: isotipo B terracota con ala solamente a la izquierda, ojo azul, texto completo BEASTIE en negro, STUDIO azul entre dos rayas terracota. **No sustituir la B de BEASTIE por el isotipo.**
 - **Favicon**: `beastie-favicon-source-512.png`; símbolo B terracota con ojo azul, **sin ala**.
 
-Los PNG originales proporcionados en conversación se preservaron en un paquete de identidad con tamaños web. **Al registrar este documento los binarios todavía NO están en GitHub**: no confundir la aprobación con la entrega al repositorio.
+Los PNG originales proporcionados en conversación se preservaron en un paquete de identidad con tamaños web. **Incorporación verificada en GitHub (22 nov 2026):** los archivos de identidad se encuentran en las rutas de producción indicadas; su tamaño coincide con `public/assets/brand/manifest.json`. La validación SHA-256 completa debe ejecutarse sobre los binarios en una copia local.
 
 ## Destino obligatorio de archivos
 - `public/assets/brand/beastie-logo-approved.png` — logo horizontal canónico
@@ -30,4 +30,4 @@ El prefijo no sustituye el hash completo del paquete. No renombrar ni alterar lo
 6. Las imágenes del logo y favicon son assets de producción; las capturas de Stitch son solamente referencias visuales.
 
 ## Estado
-**Aprobado gráficamente; incorporación binaria pendiente hasta comprobar commit con archivos reales.**
+**Aprobado gráficamente e incorporado a GitHub.** Los 9 binarios se encuentran en el árbol de `main` y coinciden en tamaño con el manifiesto. Pendiente únicamente la verificación SHA-256 completa durante la integración local.
