@@ -17,8 +17,10 @@ Este repositorio comienza como contexto de producto y diseño, **no como impleme
 6. [Instrucciones de agentes](AGENTS.md)
 
 ## Referencias
-- Diseño Stitch: https://stitch.withgoogle.com/projects/14862419422026667342
+- Diseño Stitch: docs/design/references/README.md
 - Múltiplo: https://github.com/silverberdi/multiplo
 - Boxio: https://github.com/silverberdi/boxio
 
 **Nota de integridad visual:** la imagen del logotipo aprobada por el propietario deberá incorporarse como asset verificado antes de sustituir logos provisionales. No generar una nueva versión interpretando el diseño.
+
+- Referencias visuales y HTML exportados: [inventario local](docs/design/references/README.md). No se requiere acceder a Stitch.
