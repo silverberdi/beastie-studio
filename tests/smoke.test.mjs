@@ -19,10 +19,27 @@ test('all base pages use shared layout and local routes', () => {
     const file = route ? `src/pages/${route}.astro` : 'src/pages/index.astro';
     const source = fs.readFileSync(path.join(root, file), 'utf8');
     assert.match(source, /BaseLayout/);
-    assert.match(source, /Placeholder/);
+    if (['novedades', 'apoyanos'].includes(route)) assert.match(source, /Placeholder/);
   }
   const layout = fs.readFileSync(path.join(root, 'src/layouts/BaseLayout.astro'), 'utf8');
   for (const route of ['/', '/juegos', '/novedades', '/nosotros', '/apoyanos']) assert.match(layout, new RegExp(`href: '${route.replace('/', '\\/')}'`));
   assert.match(layout, /aria-expanded/);
   assert.match(layout, /Juegos hechos con cariño/);
+});
+test('catalog data contains exactly two games without unverified URLs', () => {
+  const source = fs.readFileSync(path.join(root, 'src/data/games.js'), 'utf8');
+  assert.equal((source.match(/slug:/g) || []).length, 2);
+  assert.equal((source.match(/publicUrl: null/g) || []).length, 2);
+  assert.doesNotMatch(source, /https?:\/\//);
+});
+test('editorial routes replace foundation placeholders and use real internal CTAs', () => {
+  for (const route of ['', 'juegos', 'nosotros']) {
+    const file = route ? `src/pages/${route}.astro` : 'src/pages/index.astro';
+    const source = fs.readFileSync(path.join(root, file), 'utf8');
+    assert.doesNotMatch(source, /Placeholder/);
+    assert.doesNotMatch(source, /href=["']#["']/);
+  }
+  const detail = fs.readFileSync(path.join(root, 'src/pages/juegos/[slug].astro'), 'utf8');
+  assert.match(detail, /getStaticPaths/);
+  assert.match(detail, /GameDetail/);
 });

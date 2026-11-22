@@ -7,7 +7,7 @@ import puppeteer from 'puppeteer-core';
 execFileSync('npm', ['run', 'build'], { stdio: 'inherit' });
 
 // 2. Validate expected static files exist
-const routes = ['', 'juegos', 'novedades', 'nosotros', 'apoyanos'];
+const routes = ['', 'juegos', 'juegos/multiplo', 'juegos/boxio', 'novedades', 'nosotros', 'apoyanos'];
 for (const route of routes) {
   const filePath = `dist/${route ? `${route}/` : ''}index.html`;
   assert.ok(fs.existsSync(filePath), `Missing static file: ${filePath}`);
@@ -44,7 +44,7 @@ async function runBrowserChecks() {
 
       // Check active navigation link
       const activeHref = await page.$eval('#site-navigation a.active', (el) => el.getAttribute('href'));
-      const expectedHref = route ? `/${route}` : '/';
+      const expectedHref = route.startsWith('juegos/') ? '/juegos' : (route ? `/${route}` : '/');
       assert.equal(activeHref, expectedHref, `Active route link mismatch on ${route || '/'}`);
 
       // Footer signature
@@ -64,7 +64,7 @@ async function runBrowserChecks() {
       const hasOverflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
       assert.equal(hasOverflow, false, `Horizontal overflow detected on ${route || '/'} at 1280px viewport`);
     }
-    console.log(`PASS Chromium desktop: all 5 routes rendered with active nav, footer signature, focus order, and 0 horizontal overflow.`);
+    console.log(`PASS Chromium desktop: all ${routes.length} routes rendered with active nav, footer signature, focus order, and 0 horizontal overflow.`);
 
     // --- Scenario B: Mobile Viewport, Menu Operability & Visibility ---
     await page.setViewport({ width: 375, height: 667 });
@@ -123,6 +123,15 @@ async function runBrowserChecks() {
       page.click('.support-cta'),
     ]);
     assert.ok(page.url().includes('/apoyanos'), 'Mobile CTA click must navigate to /apoyanos');
+
+    await page.goto(`${BASE_URL}/juegos/`, { waitUntil: 'networkidle0' });
+    assert.equal(await page.$$eval('.game-card', (cards) => cards.length), 2, 'Catalog must contain exactly two games');
+    assert.equal(await page.$$eval('a', (links) => links.some((link) => link.textContent.includes('Jugar')),), false, 'Catalog must not expose unverified Jugar links');
+    for (const slug of ['multiplo', 'boxio']) {
+      await page.goto(`${BASE_URL}/juegos/${slug}/`, { waitUntil: 'networkidle0' });
+      assert.equal(await page.$$eval('a', (links) => links.some((link) => link.textContent.includes('Jugar')),), false, `Unverified ${slug} must not expose Jugar`);
+      assert.match(await page.$eval('.conceptual-art', (el) => el.getAttribute('aria-label')), /Ilustración conceptual/);
+    }
 
     console.log('PASS Chromium mobile: menu open/close toggle, aria-expanded, visibility, keyboard navigation, CTA, and 0 horizontal overflow.');
     console.log('PASS Real Chromium browser smoke verification complete and verified.');

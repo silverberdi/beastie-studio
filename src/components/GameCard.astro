@@ -1,0 +1,12 @@
+---
+const { game } = Astro.props;
+---
+<article class="game-card">
+  <div class="conceptual-art" role="img" aria-label={game.illustrationAlt}><span aria-hidden="true">{game.name}</span></div>
+  <div class="game-card-body">
+    <p class="eyebrow">{game.name}</p>
+    <h2>{game.title}</h2>
+    <p>{game.summary}</p>
+    <a class="button button-secondary" href={`/juegos/${game.slug}`}>Conocer {game.name} <span aria-hidden="true">→</span></a>
+  </div>
+</article>

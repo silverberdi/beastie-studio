@@ -1,0 +1,11 @@
+---
+const { game } = Astro.props;
+---
+<article class="game-detail">
+  <div class="game-detail-visual conceptual-art" role="img" aria-label={game.illustrationAlt}><span aria-hidden="true">{game.name}</span></div>
+  <div class="game-detail-copy">
+    <p class="eyebrow">{game.name}</p><h1>{game.title}</h1><p class="lead">{game.summary}</p><p>{game.story}</p>
+    <div class="button-row"><a class="button button-primary" href="/juegos">Conocer los juegos <span aria-hidden="true">→</span></a>{game.publicUrl && <a class="button button-secondary" href={game.publicUrl}>Jugar {game.name}</a>}</div>
+    {!game.publicUrl && <p class="not-available" role="status">La URL pública de {game.name} todavía no está verificada. «Jugar» estará disponible cuando exista un destino confirmado.</p>}
+  </div>
+</article>
