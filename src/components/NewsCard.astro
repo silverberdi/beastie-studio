@@ -4,6 +4,7 @@ const { data } = article;
 ---
 
 <article class:list={['news-card', { featured }]} data-category={data.category}>
+  <div class="news-card-art" aria-hidden="true"><span>{data.category === 'Múltiplo' ? '×' : data.category === 'Boxio' ? '□' : '♥'}</span></div>
   <div class="news-card-body">
     <p class="eyebrow">{data.category}</p>
     <h2><a href={`/novedades/${data.slug}`}>{data.title}</a></h2>

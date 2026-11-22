@@ -37,7 +37,7 @@ test('support channels are declarative and pending channels are not actionable',
   const page = fs.readFileSync(path.join(root, 'src/pages/apoyanos.astro'), 'utf8');
   assert.match(page, /Tu aporte es completamente voluntario/);
   assert.match(page, /También puedes ayudar compartiendo/);
-  assert.match(page, /illustration-apoyanos\.png/);
+  assert.match(page, /assets\/illustrations\/illustration-apoyanos\.png/);
   assert.doesNotMatch(page, /https?:\/\/|href=["']#/);
 });
 
