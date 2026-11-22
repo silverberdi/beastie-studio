@@ -91,3 +91,7 @@ Beastie Studio es un proyecto en crecimiento. Queremos que esa forma de trabajar
 
 ## Publicación y revisión
 Los textos anteriores son contenido inicial preparado para el sitio, no afirmaciones sobre estado productivo de los juegos. Corregir cualquier etiqueta de disponibilidad contrastándola con la fuente vigente. No publicar artículos como noticias recientes sin fecha editorial real.
+
+## Añadir un artículo
+
+Los artículos viven en `src/content/news/*.md` y se validan durante el build. Cada archivo debe incluir `slug`, `title`, `summary` y `category` (`Beastie Studio`, `Múltiplo`, `Boxio` o `Diseño`) en el frontmatter. `heroImage` es opcional y solo puede apuntar a un asset local aprobado; `publishedAt` también es opcional y únicamente se añade cuando existe una fecha editorial real verificada. El cuerpo se escribe en Markdown y en español. Después de añadir o editar un artículo, ejecutar `npm run test` y `npm run test:browser`; un campo obligatorio ausente o inválido debe hacer fallar el build.

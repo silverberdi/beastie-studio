@@ -1,0 +1,13 @@
+---
+const { article, featured = false } = Astro.props;
+const { data } = article;
+---
+
+<article class:list={['news-card', { featured }]} data-category={data.category}>
+  <div class="news-card-body">
+    <p class="eyebrow">{data.category}</p>
+    <h2><a href={`/novedades/${data.slug}`}>{data.title}</a></h2>
+    <p>{data.summary}</p>
+    <a class="button button-secondary" href={`/novedades/${data.slug}`}>Leer artículo <span aria-hidden="true">→</span></a>
+  </div>
+</article>
