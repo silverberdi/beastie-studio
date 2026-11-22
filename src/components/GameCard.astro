@@ -7,6 +7,9 @@ const { game } = Astro.props;
     <p class="eyebrow">{game.name}</p>
     <h2>{game.title}</h2>
     <p>{game.summary}</p>
-    <a class="button button-secondary" href={`/juegos/${game.slug}`}>Conocer {game.name} <span aria-hidden="true">→</span></a>
+    <div class="button-row">
+      {game.publicUrl && <a class="button button-primary" href={game.publicUrl}>Jugar {game.name} <span aria-hidden="true">↗</span></a>}
+      <a class="button button-secondary" href={`/juegos/${game.slug}`}>Conocer {game.name} <span aria-hidden="true">→</span></a>
+    </div>
   </div>
 </article>

@@ -14,7 +14,7 @@
 ## Pendiente / no inferir
 - Incorporación al repositorio de los **archivos originales aprobados** del logo, preferiblemente PNG transparente y SVG verificado; la aprobación de una captura no equivale a asset fuente.
 - Exportación/adjuntos permanentes de las pantallas Stitch como screenshots de referencia y HTML cuando sea posible.
-- URLs públicas verificadas de Múltiplo y Boxio; fechas y estados de lanzamiento.
+- Fechas y estados de lanzamiento de Múltiplo y Boxio.
 - Enlaces auténticos de Patreon, Ko-fi, PayPal; QR/destinatarios de Nequi y Daviplata; campaña Vaki si aplica.
 - Dominio y hosting final; publicación requiere aprobación.
 - Validación editorial final antes de declarar artículos como noticias reales.

@@ -7,7 +7,7 @@ export const games = [
     story: 'Múltiplo nació de una necesidad sencilla: ayudar a un niño de seis años a aprender a multiplicar de una manera más cercana al juego que a la obligación. Combina retos breves, claridad visual y ganas de intentarlo de nuevo.',
     illustrationAlt: 'Ilustración conceptual de Múltiplo, no una captura del juego.',
     illustration: '/assets/illustrations/illustration-multiplo-editorial.png',
-    publicUrl: null,
+    publicUrl: 'https://multiplo.silverman.pro/',
   },
   {
     slug: 'boxio',
@@ -17,7 +17,7 @@ export const games = [
     story: 'Boxio toma un clásico de reglas fáciles de entender y lo transforma en una experiencia digital para compartir, competir y descubrir nuevas estrategias.',
     illustrationAlt: 'Ilustración conceptual de Boxio, no una captura del juego.',
     illustration: '/assets/illustrations/illustration-boxio-concept.png',
-    publicUrl: null,
+    publicUrl: 'https://boxio.silverman.pro/',
   },
 ];
 
