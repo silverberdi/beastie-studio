@@ -1,0 +1,46 @@
+{
+  "brand": "Beastie Studio",
+  "sources": {
+    "logo": "user-approved image(8).png",
+    "favicon": "user-provided beastie-favicon-512(1).png"
+  },
+  "rule": "Use supplied image assets verbatim. Do not regenerate, redraw or add wings to favicon.",
+  "files": {
+    "apple-touch-icon.png": {
+      "bytes": 16694,
+      "sha256": "89a4dd0a15eb5ee99c99b8a0f259d42d09e13d8396488ca2ffe728b63fbe2570"
+    },
+    "beastie-favicon-source-512.png": {
+      "bytes": 99906,
+      "sha256": "5b2ed4dd9282087037184e60035ea75f05e757ce55bf0192cc278e90a9f04a37"
+    },
+    "beastie-logo-approved.png": {
+      "bytes": 818099,
+      "sha256": "403d0aebd1cc94b553ae4e07c4efd743fd85a069f8a4d858b1227fcd8b91d757"
+    },
+    "favicon-16x16.png": {
+      "bytes": 511,
+      "sha256": "fdbc360c04e53911fb6ee004d166240e51653556f97b280ef3bd6f13a4dba48b"
+    },
+    "favicon-192x192.png": {
+      "bytes": 18693,
+      "sha256": "e4c0766dc65ee22ae2e41d72b7aa222f2197016710cd7743937b899b94c0506b"
+    },
+    "favicon-32x32.png": {
+      "bytes": 1115,
+      "sha256": "3860afe83ffb90ecc75d7e34dec63eb8328ffb67bd0172151080cb53dcdcfa39"
+    },
+    "favicon-48x48.png": {
+      "bytes": 1822,
+      "sha256": "dfbe2e6a492f7c90d93cd7fbf0ce53a8d45c4d11359bfd8aa3d485336c60e259"
+    },
+    "favicon-512x512.png": {
+      "bytes": 99906,
+      "sha256": "5b2ed4dd9282087037184e60035ea75f05e757ce55bf0192cc278e90a9f04a37"
+    },
+    "favicon.ico": {
+      "bytes": 3575,
+      "sha256": "368815e315fda28509596e44a348ee1bb382db9200a2c0e9ffe894b38c17e4d4"
+    }
+  }
+}
