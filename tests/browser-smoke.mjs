@@ -61,11 +61,11 @@ await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
 const PORT = server.address().port;
 const BASE_URL = `http://127.0.0.1:${PORT}`;
 const browserMode = process.env.BEASTIE_BROWSER_MODE || 'desktop';
-const captureDir = path.join('openspec', 'changes', 'req-11-website-corregir-fidelidad-visual-vs-wir', 'evidence', 'captures');
+const captureDir = path.join('openspec', 'changes', 'req-14-website-enlazar-multiplo-y-boxio-publica', 'evidence', 'captures');
 fs.mkdirSync(captureDir, { recursive: true });
 const captureRoutes = browserMode === 'desktop'
-  ? ['', 'juegos', 'nosotros', 'novedades', 'novedades/por-que-creamos-multiplo', 'apoyanos']
-  : ['', 'novedades', 'apoyanos'];
+  ? ['', 'juegos', 'juegos/multiplo', 'juegos/boxio', 'nosotros', 'novedades', 'novedades/por-que-creamos-multiplo', 'apoyanos']
+  : ['', 'juegos', 'juegos/multiplo', 'juegos/boxio', 'novedades', 'apoyanos'];
 
 async function runBrowserChecks() {
   const browser = await puppeteer.launch({
@@ -124,6 +124,12 @@ async function runBrowserChecks() {
       assert.equal(await page.$$eval('.support-card a', (links) => links.length), 0);
       assert.equal(await page.$eval('.support-illustration', (image) => image.alt.includes('Ilustración conceptual')), true);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth), false);
+      await page.goto(`${BASE_URL}/index.html`, { waitUntil: 'domcontentloaded' });
+      for (const expectedUrl of ['https://multiplo.silverman.pro/', 'https://boxio.silverman.pro/']) {
+        assert.equal(await page.$$eval(`.game-card a[href="${expectedUrl}"]`, (links) => links.length), 1, `Home must map Jugar to ${expectedUrl}`);
+      }
+      await page.goto(`${BASE_URL}/juegos/`, { waitUntil: 'domcontentloaded' });
+      assert.equal(await page.$$eval('.game-card a[href^="https://"]', (links) => links.length), 2);
       await captureFullRoutes();
       console.log('PASS Chromium desktop: support route metadata, pending channels, conceptual alt, and 0 horizontal overflow.');
       return;
@@ -185,10 +191,20 @@ async function runBrowserChecks() {
 
     await page.goto(`${BASE_URL}/juegos/index.html`, { waitUntil: 'domcontentloaded' });
     assert.equal(await page.$$eval('.game-card', (cards) => cards.length), 2, 'Catalog must contain exactly two games');
-    assert.equal(await page.$$eval('a', (links) => links.some((link) => link.textContent.includes('Jugar'))), false, 'Catalog must not expose unverified Jugar links');
+    const catalogGames = await page.$$eval('.game-card', (cards) => cards.map((card) => ({
+      name: card.querySelector('.eyebrow')?.textContent.trim(),
+      play: card.querySelector('a[href^="https://"]')?.getAttribute('href'),
+      know: card.querySelector('a[href^="/juegos/"]')?.getAttribute('href'),
+    })));
+    assert.deepEqual(catalogGames, [
+      { name: 'Múltiplo', play: 'https://multiplo.silverman.pro/', know: '/juegos/multiplo' },
+      { name: 'Boxio', play: 'https://boxio.silverman.pro/', know: '/juegos/boxio' },
+    ]);
     for (const slug of ['multiplo', 'boxio']) {
       await page.goto(`${BASE_URL}/juegos/${slug}/index.html`, { waitUntil: 'domcontentloaded' });
-      assert.equal(await page.$$eval('a', (links) => links.some((link) => link.textContent.includes('Jugar'))), false, `Unverified ${slug} must not expose Jugar`);
+      const expectedUrl = slug === 'multiplo' ? 'https://multiplo.silverman.pro/' : 'https://boxio.silverman.pro/';
+      assert.equal(await page.$eval(`a[href="${expectedUrl}"]`, (link) => link.textContent.includes('Jugar')), true, `Verified ${slug} must expose Jugar`);
+      assert.equal(await page.$eval('.game-detail a[href="/juegos"]', (link) => link.textContent.includes('Conocer')), true, `${slug} must retain internal Conocer`);
       assert.match(await page.$eval('.conceptual-art', (el) => el.getAttribute('aria-label')), /Ilustración conceptual/);
     }
 

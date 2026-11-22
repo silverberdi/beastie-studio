@@ -59,11 +59,25 @@ test('publication configuration never creates a fictional sitemap domain', () =>
   assert.match(sitemap, /dist\/sitemap\.xml/);
   assert.doesNotMatch(sitemap, /beastie.*\.com/i);
 });
-test('catalog data contains exactly two games without unverified URLs', () => {
-  const source = fs.readFileSync(path.join(root, 'src/data/games.js'), 'utf8');
-  assert.equal((source.match(/slug:/g) || []).length, 2);
-  assert.equal((source.match(/publicUrl: null/g) || []).length, 2);
-  assert.doesNotMatch(source, /https?:\/\//);
+test('catalog data maps each game to one canonical public URL', async () => {
+  const { games } = await import('../src/data/games.js');
+  assert.equal(games.length, 2);
+  assert.deepEqual(Object.fromEntries(games.map(({ slug, publicUrl }) => [slug, publicUrl])), {
+    multiplo: 'https://multiplo.silverman.pro/',
+    boxio: 'https://boxio.silverman.pro/',
+  });
+  assert.equal(new Set(games.map((game) => game.publicUrl)).size, games.length);
+  assert.ok(games.every((game) => new URL(game.publicUrl).protocol === 'https:'));
+});
+test('game surfaces derive external Jugar and internal Conocer links from the registry', () => {
+  const card = fs.readFileSync(path.join(root, 'src/components/GameCard.astro'), 'utf8');
+  const detail = fs.readFileSync(path.join(root, 'src/components/GameDetail.astro'), 'utf8');
+  assert.match(card, /game\.publicUrl/);
+  assert.match(card, /href=\{`\/juegos\/\$\{game\.slug\}`\}/);
+  assert.match(detail, /href=\{game\.publicUrl\}/);
+  assert.match(detail, /href="\/juegos"/);
+  assert.doesNotMatch(card, /multiplo\.silverman|boxio\.silverman/);
+  assert.doesNotMatch(detail, /multiplo\.silverman|boxio\.silverman/);
 });
 test('editorial routes replace foundation placeholders and use real internal CTAs', () => {
   for (const route of ['', 'juegos', 'nosotros']) {

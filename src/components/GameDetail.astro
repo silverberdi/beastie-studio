@@ -5,7 +5,7 @@ const { game } = Astro.props;
   <figure class="game-detail-visual conceptual-art" role="img" aria-label={game.illustrationAlt}><img src={game.illustration} alt={game.illustrationAlt} width="200" height="200" /><figcaption>Ilustración conceptual para {game.name}; no es una captura del juego.</figcaption></figure>
   <div class="game-detail-copy">
     <p class="eyebrow">{game.name}</p><h1>{game.title}</h1><p class="lead">{game.summary}</p><p>{game.story}</p>
-    <div class="button-row"><a class="button button-primary" href="/juegos">Conocer los juegos <span aria-hidden="true">→</span></a>{game.publicUrl && <a class="button button-secondary" href={game.publicUrl}>Jugar {game.name}</a>}</div>
+    <div class="button-row"><a class="button button-secondary" href="/juegos">Conocer los juegos <span aria-hidden="true">→</span></a>{game.publicUrl && <a class="button button-primary" href={game.publicUrl}>Jugar {game.name} <span aria-hidden="true">↗</span></a>}</div>
     {!game.publicUrl && <p class="not-available" role="status">La URL pública de {game.name} todavía no está verificada. «Jugar» estará disponible cuando exista un destino confirmado.</p>}
   </div>
 </article>
