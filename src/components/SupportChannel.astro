@@ -1,0 +1,10 @@
+---
+import { isActionable } from '../data/support.js';
+
+const { channel } = Astro.props;
+const actionable = isActionable(channel);
+---
+<article class="support-card" data-status={channel.status}>
+  <div><p class="support-card-type">{channel.detail}</p><h2>{channel.name}</h2></div>
+  {actionable ? <a class="button button-secondary" href={channel.approvedValue} rel="noopener noreferrer">Visitar {channel.name}</a> : <p class="support-pending" role="status">Pendiente de verificación. Aún no hay un destino aprobado.</p>}
+</article>

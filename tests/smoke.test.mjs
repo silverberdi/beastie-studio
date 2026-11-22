@@ -19,12 +19,36 @@ test('all base pages use shared layout and local routes', () => {
     const file = route ? `src/pages/${route}.astro` : 'src/pages/index.astro';
     const source = fs.readFileSync(path.join(root, file), 'utf8');
     assert.match(source, /BaseLayout/);
-    if (route === 'apoyanos') assert.match(source, /Placeholder/);
+    if (route === 'apoyanos') assert.match(source, /visibleSupportChannels/);
   }
   const layout = fs.readFileSync(path.join(root, 'src/layouts/BaseLayout.astro'), 'utf8');
   for (const route of ['/', '/juegos', '/novedades', '/nosotros', '/apoyanos']) assert.match(layout, new RegExp(`href: '${route.replace('/', '\\/')}'`));
   assert.match(layout, /aria-expanded/);
   assert.match(layout, /Juegos hechos con cariño/);
+});
+
+test('support channels are declarative and pending channels are not actionable', async () => {
+  const support = await import('../src/data/support.js');
+  assert.deepEqual(support.visibleSupportChannels().map((channel) => channel.name), ['Patreon', 'Ko-fi', 'PayPal', 'Nequi', 'Daviplata']);
+  assert.equal(support.visibleSupportChannels().some(support.isActionable), false);
+  const enabled = { name: 'Test', status: 'verificado', destinationType: 'url', approvedValue: 'https://example.test/support' };
+  assert.equal(support.isActionable(enabled), true);
+  assert.deepEqual(support.visibleSupportChannels([enabled]), [enabled]);
+  const page = fs.readFileSync(path.join(root, 'src/pages/apoyanos.astro'), 'utf8');
+  assert.match(page, /Tu aporte es completamente voluntario/);
+  assert.match(page, /También puedes ayudar compartiendo/);
+  assert.match(page, /illustration-apoyanos\.png/);
+  assert.doesNotMatch(page, /https?:\/\/|href=["']#/);
+});
+
+test('publication configuration never creates a fictional sitemap domain', () => {
+  const config = fs.readFileSync(path.join(root, 'astro.config.mjs'), 'utf8');
+  const sitemap = fs.readFileSync(path.join(root, 'scripts/generate-sitemap.mjs'), 'utf8');
+  assert.match(config, /PUBLIC_SITE_URL/);
+  assert.match(config, /https:/);
+  assert.match(sitemap, /Sitemap pendiente/);
+  assert.match(sitemap, /dist\/sitemap\.xml/);
+  assert.doesNotMatch(sitemap, /beastie.*\.com/i);
 });
 test('catalog data contains exactly two games without unverified URLs', () => {
   const source = fs.readFileSync(path.join(root, 'src/data/games.js'), 'utf8');
