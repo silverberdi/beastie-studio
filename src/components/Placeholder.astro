@@ -1,0 +1,9 @@
+---
+const { eyebrow, title, description, dependency = 'El contenido final de esta sección está pendiente de revisión editorial.' } = Astro.props;
+---
+<section class="page shell">
+  <p class="eyebrow">{eyebrow}</p>
+  <h1>{title}</h1>
+  <p class="lead">{description}</p>
+  <div class="placeholder" role="status"><strong>Placeholder de fundación.</strong> {dependency} Esta página ya está preparada para recibir contenido verificado en un incremento posterior.</div>
+</section>

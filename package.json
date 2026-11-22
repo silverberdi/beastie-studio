@@ -1,0 +1,16 @@
+{
+  "name": "beastie-studio-website",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "node --test tests/smoke.test.mjs",
+    "test:browser": "node tests/browser-smoke.mjs"
+  },
+  "dependencies": {
+    "astro": "5.15.9"
+  }
+}
