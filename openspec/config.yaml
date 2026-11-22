@@ -1,0 +1,31 @@
+# Configuración OpenSpec para Beastie Studio — verificar con CLI instalada antes de modificar
+schema: spec-driven
+
+context: |
+  Proyecto: Beastie Studio, website oficial y catálogo de videojuegos independientes.
+  Idioma de experiencia y documentación: español.
+  Lema: Descubrir. Pensar. Compartir.
+  Firma: Juegos hechos con cariño.
+  Fuente de producto: docs/PRODUCT.md y docs/CONTENT.md.
+  Fuente de identidad y UI: docs/DESIGN.md y referencias exportadas de Stitch.
+  Tecnología: Astro SSG, contenido Markdown, sin backend, CMS, base de datos ni cuentas.
+  Múltiplo y Boxio son aplicaciones distintas; no reconstruirlas ni tocar sus repositorios.
+  NO inventar assets oficiales, releases de juegos, URLs de donación ni QR.
+  La etiqueta GitHub disabled excluye un issue de cualquier ejecución de Mini Me.
+  El merge de PR, la publicación y las altas de canales de cobro requieren control humano.
+  No interpretar placeholders como hechos finales.
+
+rules:
+  proposal:
+    - Alinear cada cambio con el issue autorizado y el alcance específico.
+    - Referenciar docs/PRODUCT.md, docs/ARCHITECTURE.md y docs/DECISIONS.md.
+    - Diferenciar dependencias de diseño/asset y decisiones aún pendientes.
+  specs:
+    - Requisitos verificables y escenarios Dado/Cuando/Entonces.
+    - Cubrir navegación, móvil, accesibilidad, enlaces inactivos y contenido verificado.
+  design:
+    - Preservar identidad de Stitch y el logo aprobado sin reinterpretarlo.
+    - Evitar servicios innecesarios y mantener generación estática Astro.
+  tasks:
+    - Resultados demostrables, pruebas proporcionales y PR revisable.
+    - No desplegar ni ejecutar issues con etiqueta disabled.
