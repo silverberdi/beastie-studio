@@ -27,6 +27,15 @@ test('all base pages use shared layout and local routes', () => {
   assert.match(layout, /Juegos hechos con cariño/);
 });
 
+test('shared visual classes have imported global rules', () => {
+  const layout = fs.readFileSync(path.join(root, 'src/layouts/BaseLayout.astro'), 'utf8');
+  const globalStyles = fs.readFileSync(path.join(root, 'src/styles/global.css'), 'utf8');
+  assert.match(layout, /import ['"]\.\.\/styles\/global\.css['"]/);
+  for (const selector of ['hero-grid', 'hero-accent', 'hero-art', 'pills', 'pill', 'section-warm', 'principles', 'principle-card', 'news-home-grid', 'news-card-art']) {
+    assert.match(globalStyles, new RegExp(`\\.${selector}\\s*\\{`), `Missing global rule for .${selector}`);
+  }
+});
+
 test('support channels are declarative and pending channels are not actionable', async () => {
   const support = await import('../src/data/support.js');
   assert.deepEqual(support.visibleSupportChannels().map((channel) => channel.name), ['Patreon', 'Ko-fi', 'PayPal', 'Nequi', 'Daviplata']);
@@ -37,7 +46,7 @@ test('support channels are declarative and pending channels are not actionable',
   const page = fs.readFileSync(path.join(root, 'src/pages/apoyanos.astro'), 'utf8');
   assert.match(page, /Tu aporte es completamente voluntario/);
   assert.match(page, /También puedes ayudar compartiendo/);
-  assert.match(page, /illustration-apoyanos\.png/);
+  assert.match(page, /assets\/illustrations\/illustration-apoyanos\.png/);
   assert.doesNotMatch(page, /https?:\/\/|href=["']#/);
 });
 

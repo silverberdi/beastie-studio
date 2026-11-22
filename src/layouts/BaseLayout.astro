@@ -1,4 +1,6 @@
 ---
+import '../styles/global.css';
+
 const { title, description = 'Beastie Studio: juegos hechos con cariño.', activePath = Astro.url.pathname, image } = Astro.props;
 const navigation = [
   { href: '/', label: 'Inicio' },
@@ -23,6 +25,9 @@ const isActive = (href) => href === '/' ? activePath === '/' : activePath.starts
     {Astro.site && <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />}
     <link rel="icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
     <title>{title} · Beastie Studio</title>
   </head>
   <body>

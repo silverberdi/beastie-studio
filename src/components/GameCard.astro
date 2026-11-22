@@ -2,7 +2,7 @@
 const { game } = Astro.props;
 ---
 <article class="game-card">
-  <div class="conceptual-art" role="img" aria-label={game.illustrationAlt}><span aria-hidden="true">{game.name}</span></div>
+  <div class="conceptual-art" role="img" aria-label={game.illustrationAlt}><img src={game.illustration} alt={game.illustrationAlt} width="200" height="200" /></div>
   <div class="game-card-body">
     <p class="eyebrow">{game.name}</p>
     <h2>{game.title}</h2>

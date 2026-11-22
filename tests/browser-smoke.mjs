@@ -61,6 +61,11 @@ await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
 const PORT = server.address().port;
 const BASE_URL = `http://127.0.0.1:${PORT}`;
 const browserMode = process.env.BEASTIE_BROWSER_MODE || 'desktop';
+const captureDir = path.join('openspec', 'changes', 'req-11-website-corregir-fidelidad-visual-vs-wir', 'evidence', 'captures');
+fs.mkdirSync(captureDir, { recursive: true });
+const captureRoutes = browserMode === 'desktop'
+  ? ['', 'juegos', 'nosotros', 'novedades', 'novedades/por-que-creamos-multiplo', 'apoyanos']
+  : ['', 'novedades', 'apoyanos'];
 
 async function runBrowserChecks() {
   const browser = await puppeteer.launch({
@@ -72,7 +77,17 @@ async function runBrowserChecks() {
     const page = await browser.newPage();
 
     // --- Scenario A: Desktop Viewport Navigation & Layout ---
-    await page.setViewport({ width: browserMode === 'mobile' ? 375 : 1280, height: browserMode === 'mobile' ? 667 : 800 });
+    await page.setViewport({ width: browserMode === 'mobile' ? 390 : 1440, height: browserMode === 'mobile' ? 844 : 900 });
+    async function captureFullRoutes() {
+      for (const route of captureRoutes) {
+        await page.goto(`${BASE_URL}/${route ? `${route}/` : 'index.html'}`, { waitUntil: 'domcontentloaded' });
+        await page.waitForFunction(() => [...document.images].every((image) => image.complete), { timeout: 5000 });
+        const brokenImages = await page.$$eval('img', (images) => images.filter((image) => !image.complete || image.naturalWidth === 0).map((image) => image.src));
+        assert.deepEqual(brokenImages, [], `Images must load on ${route || '/'}`);
+        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth), false, `Horizontal overflow on ${route || '/'}`);
+        await page.screenshot({ path: path.join(captureDir, `${browserMode}-${route.replaceAll('/', '-') || 'home'}.png`), fullPage: true });
+      }
+    }
     if (browserMode === 'mobile') {
       await page.goto(`${BASE_URL}/index.html`, { waitUntil: 'domcontentloaded' });
       console.log('E2E mobile: opening home');
@@ -109,6 +124,7 @@ async function runBrowserChecks() {
       assert.equal(await page.$$eval('.support-card a', (links) => links.length), 0);
       assert.equal(await page.$eval('.support-illustration', (image) => image.alt.includes('Ilustración conceptual')), true);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth), false);
+      await captureFullRoutes();
       console.log('PASS Chromium desktop: support route metadata, pending channels, conceptual alt, and 0 horizontal overflow.');
       return;
     }
@@ -183,6 +199,7 @@ async function runBrowserChecks() {
     assert.equal(await page.$$eval('.support-sharing a[href^="/juegos/"]', (links) => links.length), 2);
     assert.equal(await page.$eval('.support-illustration', (image) => image.getAttribute('alt').includes('Ilustración conceptual')), true);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth), false, 'Horizontal overflow detected on support page');
+    await captureFullRoutes();
 
     console.log('PASS Chromium mobile: menu open/close toggle, aria-expanded, visible focus, CTA, support links, and 0 horizontal overflow.');
     console.log('PASS Real Chromium browser smoke verification complete and verified.');
