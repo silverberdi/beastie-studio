@@ -31,4 +31,4 @@ Hero legible + catálogo destacado como protagonista. Novedades con tarjetas, ca
 Donde falte una referencia visual o archivo definitivo, conservar un placeholder explícito y reportar dependencia. No sustituir la falta de assets por generación no autorizada.
 
 ## Fuente visual local para Mini Me
-**Usar exclusivamente** los archivos en `docs/design/references/`, inventariados en `docs/design/references/README.md`. No consultar Stitch. Captura de Inicio desktop pendiente, pero su HTML de referencia existe. Los recursos de marca definitivos siguen pendientes.
+**Usar exclusivamente** los archivos en `docs/design/references/`, inventariados en `docs/design/references/README.md`. No consultar Stitch. Inicio desktop se reconstruye desde los fragmentos versionados con `restore-home-desktop.py`. Las nueve capturas de pantalla del inventario y las tres ilustraciones conceptuales están incorporadas; los recursos de marca definitivos siguen pendientes.
