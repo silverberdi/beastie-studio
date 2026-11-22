@@ -6,7 +6,7 @@ Se restaura la fidelidad visual del sitio Astro frente a las referencias locales
 
 ## Checks
 
-- `npm run test` — PASS (9/9).
+- `npm run test` — PASS (10/10).
 - `npm run build` — PASS (11 rutas estáticas); sitemap omitido porque `PUBLIC_SITE_URL` no está verificada.
 - `npm run test:browser` — PASS en Chromium desktop y móvil; filtros, menú, foco, alt, enlaces internos, imágenes y overflow.
 - Capturas completas Astro real: `evidence/captures/`.
