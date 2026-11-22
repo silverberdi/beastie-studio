@@ -1,5 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Placeholder from '../components/Placeholder.astro';
+import SupportChannel from '../components/SupportChannel.astro';
+import { visibleSupportChannels } from '../data/support.js';
 ---
-<BaseLayout title="Apóyanos"><Placeholder eyebrow="Apoyo" title="Ayúdanos a seguir creando." description="Si disfrutas nuestros juegos, podrás apoyar el proyecto o compartirlo con otras personas." dependency="Los canales de apoyo, enlaces, QR y destinatarios permanecen no accionables hasta su verificación." /></BaseLayout>
+<BaseLayout title="Apóyanos" description="Formas voluntarias de apoyar a Beastie Studio y compartir sus juegos.">
+  <section class="page support-page"><div class="shell">
+    <div class="support-intro"><div><p class="eyebrow">Apoyo voluntario para adultos</p><h1>Ayúdanos a seguir creando.</h1><p class="lead">Si te gustan nuestros juegos y quieres ayudarnos a seguir creando, aquí encontrarás distintas formas de apoyar el proyecto. Tu aporte es completamente voluntario.</p></div><img class="support-illustration" src="/assets/illustration-apoyanos.png" alt="Ilustración conceptual sobre apoyar a Beastie Studio; no es una captura de un juego." width="800" height="800" /></div>
+    <section class="support-options" aria-labelledby="support-options-title"><div class="section-heading"><p class="eyebrow">Opciones de apoyo</p><h2 id="support-options-title">Elige la forma que te resulte más cómoda.</h2><p>Los canales se activarán únicamente cuando exista un enlace, destinatario o recurso aprobado.</p></div><div class="support-grid">{visibleSupportChannels().map((channel) => <SupportChannel channel={channel} />)}</div></section>
+    <section class="support-sharing" aria-labelledby="sharing-title"><p class="eyebrow">Otra forma de ayudar</p><h2 id="sharing-title">También puedes ayudar compartiendo.</h2><p>Recomendar nuestros juegos a alguien interesado también nos ayuda a llegar a nuevas personas.</p><div class="button-row"><a class="button button-secondary" href="/juegos/multiplo">Conocer Múltiplo <span aria-hidden="true">→</span></a><a class="button button-secondary" href="/juegos/boxio">Conocer Boxio <span aria-hidden="true">→</span></a></div></section>
+    <p class="support-thanks">Gracias por acompañar juegos hechos con cariño.</p>
+  </div></section>
+</BaseLayout>

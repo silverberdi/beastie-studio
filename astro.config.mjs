@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 
-export default defineConfig({
-  output: 'static',
-  site: 'https://beastie.studio'
-});
+const rawBaseUrl = process.env.PUBLIC_SITE_URL?.trim();
+const verifiedBaseUrl = rawBaseUrl && /^https:\/\/[^\s/]+(?:\/[^\s]*)?$/.test(rawBaseUrl) ? rawBaseUrl.replace(/\/$/, '') : undefined;
+
+export default defineConfig({ output: 'static', ...(verifiedBaseUrl ? { site: verifiedBaseUrl } : {}) });

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/generate-sitemap.mjs",
     "preview": "astro preview",
     "test": "node --test tests/smoke.test.mjs",
     "test:browser": "node tests/browser-smoke.mjs"
