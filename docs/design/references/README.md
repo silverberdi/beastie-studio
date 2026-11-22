@@ -32,6 +32,10 @@ Esto reconstruye el PNG original en `docs/design/references/home-desktop.png`. L
 
 Estas ilustraciones son **conceptuales**: no deben presentarse como pantallazos de juegos reales. Comprobar la coherencia y los derechos de uso antes de moverlas a `public/assets/`.
 
+## Verificación de incorporación (22 de noviembre de 2026)
+
+Las nueve referencias de pantallas (Inicio escritorio reconstruible desde 13 fragmentos, las otras ocho en PNG) y las tres ilustraciones conceptuales están versionadas. El commit `be8c901fdeb2d6d1669e4604c26791b72039d434` incorporó los seis PNG faltantes. **Esto no confirma la incorporación del logo/favicón de producción**, que sigue siendo una dependencia separada.
+
 ## Logo final
 La marca horizontal aprobada por el propietario **todavía no está incorporada a este directorio**. Se requiere el archivo de imagen aprobado, sin regenerarlo ni reinterpretarlo. El isotipo tiene una B terracota con ojo azul y un ala izquierda; a su derecha el texto COMPLETO BEASTIE en negro y STUDIO en azul con adornos terracota. Favicon sin ala. No considerar finalizada la integración de marca mientras falte este archivo fuente.
 
