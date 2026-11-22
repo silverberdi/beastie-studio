@@ -12,3 +12,5 @@ Lee README.md y docs/ antes de modificar código. Este repositorio contiene el s
 - Mantener Astro estático, componentes simples, sin servidor o CMS innecesario.
 - Toda propuesta de cambio pasa por PR con merge humano.
 - Si falta un asset o dato de pago, registrar dependencia clara y dejar placeholder no accionable, nunca fabricar un valor.
+
+- Fuente visual única para ejecución: `docs/design/references/README.md` y archivos locales allí enumerados. **No acceder a Stitch ni depender de enlaces a Stitch**.
