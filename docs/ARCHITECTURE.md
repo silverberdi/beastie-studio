@@ -23,7 +23,7 @@ Colección de artículos: `slug`, `title`, `summary`, `category`, `body`, `heroI
 - No recoger información de menores ni integrar analítica sin una decisión expresa.
 
 ## Referencias
-- Stitch: https://stitch.withgoogle.com/projects/14862419422026667342
+- Stitch: docs/design/references/README.md
 - Múltiplo: https://github.com/silverberdi/multiplo
 - Boxio: https://github.com/silverberdi/boxio
 
@@ -35,3 +35,6 @@ Los issues autorizados definen incrementos. Utilizar OpenSpec **nativo** (no sim
 2. Home + catálogo + nosotros + fichas de juegos.
 3. Novedades + artículos + categorías y metadatos.
 4. Apoyo + garantías UX/SEO + preparación del despliegue, **sin activar cobros o producción sin información validada**.
+
+## Diseño
+Las referencias deben leerse desde `docs/design/references/` y su `README.md`; Mini Me no necesita ni debe seguir enlaces de Stitch.
