@@ -1,34 +1,43 @@
-# Beastie Studio — Dirección visual V5.4
+# Referencia visual aprobada — Beastie Studio V5.4
 
-Esta carpeta contiene las referencias HTML correspondientes a la dirección creativa **aprobada** por el propietario del estudio. Mantener siempre diferenciadas las referencias de diseño y el código de producción.
+**Estado: paquete de referencia completo, versionado en GitHub.** Se conservan las referencias históricas en `../legacy/`. Esta carpeta es una referencia de diseño, no código Astro listo para copiar sin adaptación.
 
-## Archivos
-- [`inicio.html`](inicio.html): Inicio, titular «Descubrir. Pensar. Compartir.», composición panorámica, hero con efecto parallax y carrusel.
-- [`juegos.html`](juegos.html): catálogo, titular «Nuestros juegos.», parallax con imagen **distinta** de Inicio, fichas de juegos.
-- `assets/hero-parque-beastie.webp`: imagen **definitiva de Inicio**, 1672×941.
-- `assets/hero-juegos-islass.webp`: imagen **definitiva de Juegos**, 1672×941, no es un recorte de Inicio.
+## Archivos y dependencias locales
 
-## Estado de integridad de recursos
-**IMPORTANTE:** los dos archivos WebP originales aún no han podido transferirse mediante la conexión GitHub de esta sesión. En esta carpeta solo están los HTML versionados; **no afirmar que el wireframe interactivo se renderiza completo desde el repositorio** hasta que los binarios reales estén en `assets/`.
+| Función | Ruta |
+|---|---|
+| Inicio interactivo | [inicio.html](inicio.html) |
+| Juegos interactivo | [juegos.html](juegos.html) |
+| Hero aprobado de Inicio | [assets/hero-parque-beastie.webp](assets/hero-parque-beastie.webp) |
+| Hero aprobado de Juegos (arte diferente) | [assets/hero-juegos-islass.webp](assets/hero-juegos-islass.webp) |
+| Capturas reales Múltiplo (4) | [assets/screenshots/multiplo/](assets/screenshots/multiplo/) |
+| Capturas reales Boxio (3) | [assets/screenshots/boxio/](assets/screenshots/boxio/) |
+| Inventario de las siete capturas | [assets/screenshots/manifest.json](assets/screenshots/manifest.json) |
 
-Los dos WebP exactos se entregaron en el paquete descargable V5.4 de la conversación de diseño. **No sustituir por imágenes genéricas o creadas por Stitch**. La ubicación que debe tener cada archivo al completarse el paquete está arriba.
+Las dos ilustraciones son distintas; no reutilizar ni recortar el hero de Inicio para construir Juegos. Las siete capturas provienen del material real aportado por el usuario, **no** de renders conceptuales. La procedencia específica de URLs y tiempos de captura no está registrada: no inventar esas evidencias.
 
-Las capturas reales de Múltiplo y Boxio tampoco están incluidas aún. La implementación en producción requiere capturas auténticas de:
-- https://multiplo.silverman.pro/
-- https://boxio.silverman.pro/
+## Elección de capturas (fijada para evitar interpretaciones)
+- **Múltiplo — principal:** `assets/screenshots/multiplo/multiplo-pregunta-1.webp` (746 × 1178).
+- **Boxio — principal:** `assets/screenshots/boxio/boxio-partida-local.webp` (1247 × 818).
+- **Múltiplo — galería adicional:** `multiplo-demo-inicial.webp`, `multiplo-respuesta-correcta.webp`, `multiplo-pregunta-2.webp`.
+- **Boxio — galería adicional:** `boxio-menu-modos.webp`, `boxio-partida-multibot.webp`.
 
-No confundir ilustraciones editoriales con capturas de gameplay.
+Importante: las capturas de Múltiplo son **verticales**, las de Boxio **horizontales**. Mostrar la imagen COMPLETA con `object-fit: contain` en un marco visual apropiado, sin recortar texto, botones ni tablero. Optimizar la composición del carrusel en Astro en vez de forzar un recorte artificial. Conservar proporciones e integridad del contenido.
 
-## Contrato de integración
-1. Adaptar HTML y animaciones **a los componentes Astro existentes**, evitando reescribir el sitio completo.
-2. Mantener logo, favicon, paleta y tipografía aprobados; preservar rutas y contenido del sitio ya publicado.
-3. Probar de forma manual y automatizada que el parallax sea perceptible, no corte texto y respete `prefers-reduced-motion`.
-4. Completar fotografías reales y metadata SEO, datos estructurados, semántica, sitemap y robots según los issues.
-5. No publicar los wireframes de esta carpeta como páginas del sitio; solo son referencias de diseño.
+## Integridad verificada del material de referencia
+- `hero-parque-beastie.webp`: 1672 × 941, SHA-256 `106eacf7b7b937a47135aa7d67fa4c666546a87534c3ad850f23f26d30a84678`.
+- `hero-juegos-islass.webp`: 1672 × 941, SHA-256 `3b9ca7e217a431e3bd9608b0e8b2153cdb4c01f5837b634938a8a48c37ace6b4`.
+- Las capturas están inventariadas con SHA-256, tamaño y dimensiones en el manifest.
 
-## Issues relacionados
-- [#19 — Imágenes reales, capturas y parallax](https://github.com/silverberdi/beastie-studio/issues/19)
-- [#20 — SEO y limpieza de contenido de producción](https://github.com/silverberdi/beastie-studio/issues/20)
+## Reglas para mini me
+1. Tomar **archivos del repositorio**, no URLs de Stitch ni rutas de contenedores temporales.
+2. Adaptar las referencias HTML V5.4 a los componentes Astro y preservar rutas/funcionalidades existentes.
+3. Implementar parallax real en ambos heroes, ancho completo detrás de titular legible con contorno marfil, scroll normal y `prefers-reduced-motion`.
+4. Alimentar el carrusel y las páginas de juegos con `src/data/games.js`; principal y galería según tabla anterior.
+5. **Copiar los recursos necesarios a `public/assets/` de producción** o integrarlos con el pipeline Astro; `docs/design/references/v5/` no se sirve automáticamente en producción.
+6. Evitar que el sitio público incluya texto provisional, reclamos no comprobados, datos estructurados ficticios, imágenes de juego inventadas o información de proceso.
+7. El SEO y la limpieza general están especificados en [issue #20](https://github.com/silverberdi/beastie-studio/issues/20).
 
-## Estado editorial
-El diseño y las interacciones V5.4 están aprobados como referencia. La **integridad de las imágenes dentro de este repositorio está pendiente**; no debe desbloquearse #19 hasta incorporar los dos binarios exactos y screenshots auténticos.
+## Control de cambios
+- [#19 — Implementación visual y capturas](https://github.com/silverberdi/beastie-studio/issues/19)
+- [#20 — SEO, semántica y preparación de producción](https://github.com/silverberdi/beastie-studio/issues/20)

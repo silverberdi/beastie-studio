@@ -88,7 +88,7 @@
 .boxio-shot::after{color:#d3432b55}
 .real-game-shot .game-preview-caption{font:800 clamp(54px,8vw,125px)/1 Outfit,Arial;letter-spacing:-.07em;transform:rotate(-7deg);position:relative;z-index:2;transition:transform .48s var(--ease)}
 .real-game-shot:hover .game-preview-caption{transform:rotate(-4deg) scale(1.07)}
-.real-game-shot img.actual-game-capture{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:4;transition:transform .6s var(--ease)}
+.real-game-shot img.actual-game-capture{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:4;transition:transform .6s var(--ease)}
 .real-game-shot:hover img.actual-game-capture{transform:scale(1.045)}
 .real-game-shot:has(img.actual-game-capture) .game-preview-caption{display:none}
 .real-game-shot .game-preview-caption{font-size:clamp(48px,7vw,112px)}
@@ -333,7 +333,7 @@ const track=document.querySelector('#track'),viewport=document.querySelector('#v
  const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
  document.querySelectorAll('[data-reveal]').forEach(el=>{if(rm||!('IntersectionObserver' in window)){el.classList.add('revealed');return;}const observer=new IntersectionObserver(entries=>{entries.forEach(x=>{if(x.isIntersecting){x.target.classList.add('revealed');observer.unobserve(x.target)}})},{threshold:.10});observer.observe(el)});
  // Loads only authentic captures supplied in assets/screenshots; never generates substitutes.
- document.querySelectorAll('[data-screenshot]').forEach(panel=>{let slug=panel.dataset.screenshot;const image=new Image();image.alt='Captura real del juego '+(slug==='multiplo'?'Múltiplo':'Boxio');image.className='actual-game-capture';image.loading='lazy';image.decoding='async';image.onload=()=>panel.append(image);image.src='assets/screenshots/'+slug+'-gameplay.webp';});
+ document.querySelectorAll('[data-screenshot]').forEach(panel=>{let slug=panel.dataset.screenshot;const image=new Image();image.alt=slug==='multiplo'?'Captura auténtica de Múltiplo: pregunta sobre cuántas manzanas hay en cuatro grupos.':'Captura auténtica de Boxio: tablero durante una partida con casillas conquistadas.';image.className='actual-game-capture';image.loading='lazy';image.decoding='async';image.onload=()=>panel.append(image);image.src=slug==='multiplo'?'assets/screenshots/multiplo/multiplo-pregunta-1.webp':'assets/screenshots/boxio/boxio-partida-local.webp';});
  document.querySelectorAll('.navlinks a').forEach(link=>{if(link.getAttribute('href')===(location.pathname.split('/').pop()||'inicio.html')){link.classList.add('current');link.setAttribute('aria-current','page')}});
 })();
 </script>

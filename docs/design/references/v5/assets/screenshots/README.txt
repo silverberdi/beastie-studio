@@ -1,1 +1,0 @@
-Colocar aquí capturas reales: multiplo-gameplay.webp y boxio-gameplay.webp. No se inventaron capturas.
