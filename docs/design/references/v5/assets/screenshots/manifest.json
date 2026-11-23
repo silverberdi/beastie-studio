@@ -1,0 +1,66 @@
+{
+  "version": "1.0.0",
+  "description": "Capturas reales suministradas por el usuario para Beastie Studio",
+  "games": {
+    "multiplo": [
+      {
+        "file": "multiplo/multiplo-demo-inicial.webp",
+        "source_png": "/mnt/data/ghostwriter_images/context/f650eee7-24c5-5e45-a878-29deaf601c26.png",
+        "width": 746,
+        "height": 1178,
+        "sha256": "5ef10aecb0a6c606b131f3f5bc00e864334aa0014553d615d880ae7ea77d8362",
+        "bytes": 62300
+      },
+      {
+        "file": "multiplo/multiplo-pregunta-1.webp",
+        "source_png": "/mnt/data/ghostwriter_images/context/c0bc46c2-1e93-5340-a98a-2647de97cfaf.png",
+        "width": 746,
+        "height": 1178,
+        "sha256": "95cac8bd671255dcec1bc8e907c2e117cffbe811849d53e85abcab21143e9235",
+        "bytes": 53660
+      },
+      {
+        "file": "multiplo/multiplo-respuesta-correcta.webp",
+        "source_png": "/mnt/data/ghostwriter_images/context/9c76ccfe-dc5f-5ccf-8f1e-cac40374259c.png",
+        "width": 746,
+        "height": 1178,
+        "sha256": "70cf0931ff12d75098c9bd52038c78e4134180d872bc342529060f75845c7b59",
+        "bytes": 61238
+      },
+      {
+        "file": "multiplo/multiplo-pregunta-2.webp",
+        "source_png": "/mnt/data/ghostwriter_images/context/18906369-cb7a-5d7d-a83a-8b9daf1f5d3b.png",
+        "width": 746,
+        "height": 1178,
+        "sha256": "64f2a7bd829eb365489a39c5617c96feff282046245d39102454d7607c85583d",
+        "bytes": 24824
+      }
+    ],
+    "boxio": [
+      {
+        "file": "boxio/boxio-menu-modos.webp",
+        "source_png": "/mnt/data/ghostwriter_images/context/8e4f692a-6104-50cc-9e4c-f0cd68de92d8.png",
+        "width": 1247,
+        "height": 825,
+        "sha256": "6aa0f4c6e1f0f5237cb4b02fe89ac53baaf7220c986c2c263584dcfb6bea0dd4",
+        "bytes": 39606
+      },
+      {
+        "file": "boxio/boxio-partida-local.webp",
+        "source_png": "/mnt/data/ghostwriter_images/context/0cebed08-bf18-53ab-ae0d-70ac42967c28.png",
+        "width": 1247,
+        "height": 818,
+        "sha256": "98072e2521a49ea8e7015013eb11092daff0f423719cb48909bf91eb076d6654",
+        "bytes": 26888
+      },
+      {
+        "file": "boxio/boxio-partida-multibot.webp",
+        "source_png": "/mnt/data/ghostwriter_images/context/b9d986ef-ce6e-5150-84a1-fd180dfd2dd0.png",
+        "width": 1247,
+        "height": 818,
+        "sha256": "2e5c21d35aae3bbd6083ac406a823707fd32968747014da0e0e5e687464c5e45",
+        "bytes": 33066
+      }
+    ]
+  }
+}
