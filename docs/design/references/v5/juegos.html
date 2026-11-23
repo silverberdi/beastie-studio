@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>Beastie Studio — Juegos</title><style>
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+:root{--ivory:#fff8f4;--terra:#d3432b;--blue:#2a5cde;--ink:#1e1b18;--green:#1f8a65;--mustard:#e59f24}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--ivory);color:var(--ink);font-family:'Plus Jakarta Sans',Arial,sans-serif}h1,h2,h3{font-family:Outfit,Arial,sans-serif;line-height:1.05}a{color:inherit}.shell{max-width:1220px;margin:auto;padding:0 28px}.top{background:var(--ivory);border-bottom:1px solid #eeded6;position:sticky;top:0;z-index:10;backdrop-filter:blur(12px)}.nav{display:flex;align-items:center;justify-content:space-between;min-height:82px;gap:24px}.logo{text-decoration:none;font:800 25px Outfit}.logo b{color:var(--terra)}.logo small{font-size:11px;color:var(--blue);letter-spacing:.3em;margin-left:5px}.navlinks{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.navlinks a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:12px 16px;border-radius:14px;text-decoration:none;font-weight:800;font-size:13px;border:1px solid transparent;transition:transform .25s,box-shadow .25s,background-color .25s,color .25s,border-color .25s}.navlinks a:hover,.navlinks a:focus-visible{color:var(--terra);background:#fff1e8;transform:translateY(-3px);box-shadow:0 11px 20px #d3432b1d;border-color:#edd3c9;outline:none}.navlinks a:active{transform:translateY(-1px)}.navlinks a.current{background:var(--terra);color:#fff;box-shadow:0 11px 20px #d3432b2c;border-color:transparent}.menu{display:none}.pill{display:inline-block;background:#fbe5db;color:#a3321d;padding:9px 13px;border-radius:50px;font-size:12px;font-weight:800;letter-spacing:.04em}.btn{display:inline-flex;align-items:center;gap:10px;justify-content:center;min-height:48px;padding:14px 20px;border-radius:15px;text-decoration:none;font-weight:800;border:1px solid transparent;transition:transform .25s,box-shadow .25s;background:var(--terra);color:white}.btn:hover{transform:translateY(-3px);box-shadow:0 11px 20px #d3432b2c}.btn.outline{background:#fff8f4;color:var(--ink);border-color:#b9a8a0}.btn.blue{background:var(--blue)}.hero{overflow:hidden;background:radial-gradient(circle at 75% 40%,#f5d7bc 0,transparent 38%),linear-gradient(135deg,#fff8f4,#ffece2);padding:88px 0 104px}.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:48px}.eyebrow{color:var(--terra);font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}.hero h1{font-size:clamp(60px,7vw,110px);letter-spacing:-.065em;margin:18px 0 28px}.hero h1 em{font-style:normal;color:var(--blue)}.hero p{font-size:19px;line-height:1.75;max-width:550px}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}.art{min-height:420px;position:relative;isolation:isolate}.shape{position:absolute;box-shadow:0 18px 30px #321a1619;transition:transform .55s cubic-bezier(.2,.8,.2,1)}.art:hover .shape.a{transform:rotate(-16deg) translateY(-12px)}.art:hover .shape.b{transform:rotate(20deg) translateX(10px)}.shape.a{width:68%;height:69%;background:var(--terra);border-radius:46% 50% 35% 50%;transform:rotate(-12deg);top:12%;left:9%}.shape.b{width:47%;height:50%;border-radius:35%;background:var(--blue);transform:rotate(15deg);right:2%;top:4%}.shape.c{width:32%;height:34%;border-radius:50%;background:var(--mustard);bottom:4%;right:10%}.shape.d{width:20%;height:20%;border-radius:8px 42px 8px 42px;background:var(--green);left:2%;bottom:8%;transform:rotate(15deg)}.art-label{position:absolute;top:40%;left:30%;font:800 clamp(82px,11vw,160px)/1 Outfit;color:#fff;transform:rotate(-8deg);text-shadow:6px 7px 0 #1e1b181c}.spark{position:absolute;font-size:42px;top:0;left:4%;color:var(--mustard)}section{padding:92px 0}.sectionheading{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:36px}.sectionheading h2{font-size:clamp(34px,5vw,64px);letter-spacing:-.045em;margin:12px 0}.sectionheading p{line-height:1.7;max-width:600px}.showcase{background:#f1f4ff;overflow:hidden}.controls{display:flex;gap:8px}.circlebtn{border:1px solid #d2c9c3;width:50px;height:50px;background:white;border-radius:50%;font-size:23px;cursor:pointer}.circlebtn:disabled{opacity:.35;cursor:default}.viewport{overflow:hidden}.track{display:flex;gap:24px;transition:transform .35s ease-out;will-change:transform}.slide{flex:0 0 calc(75% - 12px);min-width:0;display:grid;grid-template-columns:1fr 1fr;background:white;border:1px solid #e7dcd5;border-radius:30px;overflow:hidden;box-shadow:0 10px 28px #1e1b180a}.visual{min-height:380px;display:grid;place-items:center;position:relative;overflow:hidden}.visual.math{background:#fce8dc}.visual.boxio{background:#dce8ff}.visual svg{width:80%;max-width:360px;transition:transform .35s ease-out}.slide:hover .visual svg,.game:hover .visual svg{transform:scale(1.055) rotate(-2deg)}.slidecopy{padding:44px 34px;display:flex;flex-direction:column;justify-content:center}.slidecopy h3{font-size:clamp(36px,4vw,57px);margin:10px 0}.slidecopy p{line-height:1.8}.numbers{display:flex;align-items:center;gap:12px;margin-top:20px;color:#655d5a;font-size:13px;font-weight:700}.dots{display:flex;gap:9px}.dot{width:10px;height:10px;border:0;border-radius:20px;background:#c9bfc5;cursor:pointer;padding:0}.dot.active{width:28px;background:var(--terra)}.news{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px}.story{background:white;border:1px solid #eee2da;padding:27px;border-radius:20px;transition:transform .25s}.story:hover{transform:translateY(-3px)}.story h3{font-size:24px}.story p{line-height:1.7;color:#5c514b}.manifesto{background:#ffece2}.manifesto blockquote{margin:0;font:700 clamp(30px,4vw,58px)/1.2 Outfit;max-width:900px}.manifesto strong{color:var(--terra)}.footer{background:#1e1b18;color:white;padding:54px 0}.footer .shell{display:flex;justify-content:space-between;gap:20px}.footer a{color:#fff}a:focus-visible,button:focus-visible{outline:3px solid var(--blue);outline-offset:4px}
+@media(max-width:800px){.menu{display:block;border:1px solid #e1c9c0;background:white;border-radius:12px;padding:12px;font-weight:800}.navlinks{display:none;position:absolute;left:0;right:0;top:80px;background:var(--ivory);padding:24px;box-shadow:0 12px 20px #1e1b181a;flex-direction:column}.navlinks.open{display:flex}.hero{padding:52px 0}.hero-grid{grid-template-columns:1fr}.hero h1{font-size:clamp(50px,13vw,78px)}.art{min-height:300px;order:-1}.sectionheading{align-items:start}.slide{flex:0 0 88%;grid-template-columns:1fr}.visual{min-height:240px}.slidecopy{padding:28px 24px}.track{gap:16px}.news{grid-template-columns:1fr}.footer .shell{flex-direction:column}section{padding:65px 0}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+.porthero{background:#ffece2;padding:90px 0 70px}.porthero h1{font-size:clamp(65px,10vw,115px);margin:18px 0}.porthero p{font-size:21px;max-width:720px;line-height:1.6}.portgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}.game{border-radius:26px;overflow:hidden;background:#fff;border:1px solid #eeded6;transition:transform .3s,box-shadow .3s}.game:hover{transform:translateY(-3px);box-shadow:0 16px 26px #1e1b1814}.game .visual{min-height:350px}.gamecopy{padding:36px}.gamecopy h2{font-size:54px;margin:10px 0}.gamecopy p{line-height:1.7}.portfoot{margin-top:60px;padding:36px;border-radius:20px;background:#e8efff}.portfoot h2{font-size:33px}.portfoot p{line-height:1.7}@media(max-width:800px){.portgrid{grid-template-columns:1fr}.game .visual{min-height:250px}.porthero{padding:55px 0}.gamecopy{padding:24px}}
+/* Beastie Studio — capa interactiva V3: CSS/SVG nativos, sin frameworks */
+.interactive-art{position:relative;overflow:hidden}
+.interactive-art::after{content:"";position:absolute;inset:12px;border:1px dashed rgba(30,27,24,.13);border-radius:24px;pointer-events:none}
+.art{--px:0px;--py:0px}
+.art .shape{will-change:transform}
+.art .shape.a{transform:translate(calc(var(--px)*-.7),calc(var(--py)*-.7)) rotate(-12deg)}
+.art .shape.b{transform:translate(calc(var(--px)*.85),calc(var(--py)*.5)) rotate(15deg)}
+.art .shape.c{transform:translate(calc(var(--px)*-.4),calc(var(--py)*.8))}
+.art .shape.d{transform:translate(calc(var(--px)*.7),calc(var(--py)*-.6)) rotate(15deg)}
+.art:hover .shape.a{transform:translate(calc(var(--px)*-.7),calc(var(--py)*-.7)) rotate(-16deg)}
+.art:hover .shape.b{transform:translate(calc(var(--px)*.85),calc(var(--py)*.5)) rotate(20deg)}
+.art .art-label{transition:transform .45s cubic-bezier(.2,.8,.2,1);transform:translate(calc(var(--px)*.3),calc(var(--py)*.3)) rotate(-8deg)}
+.art .art-orbit{position:absolute;width:60px;height:60px;right:12%;bottom:10%;border:3px dashed rgba(255,255,255,.8);border-radius:50%;animation:orbit 14s linear infinite}
+.art .art-stars{position:absolute;right:4%;top:6%;color:var(--mustard);font-size:56px;animation:float 3.5s ease-in-out infinite}
+.art .art-smile{position:absolute;z-index:2;left:42%;top:50%;width:56px;height:28px;border-bottom:8px solid #fff;border-radius:0 0 70px 70px;transform:rotate(-10deg)}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-12px) rotate(7deg)}}
+@keyframes orbit{to{transform:rotate(360deg)}}
+.visual svg{overflow:visible}
+.visual svg .math-number{transition:opacity .2s,transform .3s;transform-origin:center}
+.visual svg .math-number.changed{animation:pop .36s ease-out}
+@keyframes pop{0%{opacity:.3;transform:scale(.82) rotate(-6deg)}75%{transform:scale(1.07)}100%{opacity:1;transform:scale(1)}}
+.visual .art-control{position:absolute;bottom:16px;right:16px;z-index:2;background:#fffdf8;color:#1e1b18;border:1.5px solid rgba(30,27,24,.13);border-radius:999px;min-height:42px;padding:9px 16px;font:700 12px 'Plus Jakarta Sans',sans-serif;box-shadow:0 6px 18px rgba(30,27,24,.08);cursor:pointer}
+.visual .art-control:hover{background:#fff2e8;transform:translateY(-2px)}
+.visual .math-reaction{position:absolute;top:14px;left:20px;font-weight:800;font-family:Outfit,sans-serif;color:#9a3c27;font-size:13px}
+.visual .box-line{stroke:#2a5cde;stroke-width:8;stroke-linecap:round;stroke-dasharray:200;stroke-dashoffset:200;transition:stroke-dashoffset .55s cubic-bezier(.2,.8,.2,1)}
+.visual .box-line.drawn{stroke-dashoffset:0}
+.visual .box-glow{opacity:.15;transition:opacity .45s}
+.visual .box-glow.filled{opacity:.8}
+.game .visual,.slide .visual{isolation:isolate}
+@media(hover:hover){.game .visual::before,.slide .visual::before{content:"✦";position:absolute;top:18px;right:22px;font-size:26px;color:#fff;transition:transform .35s;z-index:1}.game:hover .visual::before,.slide:hover .visual::before{transform:rotate(40deg) scale(1.25)}}
+@media(max-width:800px){.art .art-stars{font-size:38px}.art .art-smile{left:43%;top:49%;width:38px;height:20px;border-width:5px}}
+@media(prefers-reduced-motion:reduce){.art .art-orbit,.art .art-stars{animation:none!important}.art,.art *,.visual svg *{transition:none!important;animation:none!important}}
+
+
+/* V4 — dirección editorial. El hero es arte original. El material de juegos requiere capturas verificadas. */
+.hero-illustration{display:block;width:100%;height:auto;aspect-ratio:1672/941;object-fit:cover;border-radius:28px;box-shadow:0 22px 45px #321a1618}
+.hero-art-wrap{position:relative;min-width:0;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+@media(hover:hover){.hero-art-wrap:hover{transform:translateY(-5px)}}
+.real-game-shot{min-height:240px;display:flex;align-items:center;justify-content:center;padding:30px;position:relative;background:linear-gradient(120deg,#eaf0ff,#fff2e5);border-radius:26px}
+.real-game-shot.boxio-shot{background:linear-gradient(120deg,#e3ecff,#e1f1ed)}
+.game-preview-caption{max-width:100%;color:#273447;font:800 clamp(35px,6vw,76px)/1 Outfit,Arial,sans-serif;letter-spacing:-.04em;text-align:center}
+.real-game-shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;border-radius:inherit;display:block}
+.real-game-shot:has(img:not([hidden])) .game-preview-caption{display:none}
+@media(max-width:780px){.hero-art-wrap{max-width:600px;width:100%;margin:auto}.real-game-shot{min-height:190px}}
+@media(prefers-reduced-motion:reduce){.hero-art-wrap{transition:none}}
+
+
+/* BEASTIE V5 — dirección editorial viva (sin dependencias JS externas) */
+:root {--ease:cubic-bezier(.2,.8,.2,1)}
+.top{background:rgba(255,248,244,.94);box-shadow:0 2px 18px #1e1b1808}
+.navlinks a{position:relative;overflow:hidden}
+.navlinks a:not(.current):hover{background:#ffe7da;box-shadow:0 10px 20px #d3432b23}
+.hero{padding:88px 0 66px;background:radial-gradient(circle at 14% 20%,#f8e8d4,transparent 37%),linear-gradient(180deg,#fff8f4,#fff0e6 85%,#fff8f4)}
+.hero-grid{display:flex!important;flex-direction:column;gap:0;align-items:stretch;text-align:center}
+.hero-grid>div:first-child{display:flex;flex-direction:column;align-items:center;position:relative;z-index:2}
+.hero h1{max-width:none;font-size:clamp(65px,11vw,156px);letter-spacing:-.075em;line-height:.92;margin:22px 0 22px}
+.hero h1 br{display:none}.hero h1 em{display:inline-block}
+.hero h1 .hero-line{display:block;line-height:1.02}
+.hero p{max-width:740px;font-size:clamp(16px,2vw,22px);margin:0 auto;line-height:1.6}
+.hero .actions{margin-top:26px;justify-content:center}
+.hero .eyebrow{letter-spacing:.22em;font-size:11px}
+.hero-art-wrap{margin-top:28px;width:min(100%,1260px);margin-inline:auto;position:relative;overflow:visible!important;transform:translateY(8px)}
+.hero-art-wrap::before{content:'✳';position:absolute;z-index:2;top:8%;right:8%;color:#d3432b;font:900 55px Outfit;animation:twinkle 4s ease-in-out infinite;pointer-events:none}
+.hero-art-wrap::after{content:'✦';position:absolute;z-index:2;bottom:5%;left:6%;color:#2a5cde;font:900 48px Outfit;animation:twinkle 3.8s ease-in-out infinite reverse;pointer-events:none}
+.hero-illustration{display:block;width:100%!important;max-width:none!important;height:auto!important;aspect-ratio:16/9;object-fit:contain;filter:drop-shadow(0 22px 30px #9b543522);transition:transform .7s var(--ease)}
+.hero-art-wrap:hover .hero-illustration{transform:translateY(-7px) scale(1.012)}
+@keyframes twinkle{50%{transform:rotate(18deg) scale(1.2)}}
+.showcase{background:#fff8f4;position:relative}
+.showcase::before{content:'01 / NUESTROS JUEGOS';font:800 11px 'Plus Jakarta Sans',sans-serif;letter-spacing:.18em;color:#bd6652;position:absolute;top:40px;right:max(25px,calc((100vw - 1220px)/2))}
+.sectionheading h2{font-size:clamp(42px,6vw,88px);letter-spacing:-.05em;max-width:800px}
+.sectionheading p{font-size:clamp(16px,2vw,20px);max-width:650px}
+.slide{border-radius:32px;box-shadow:0 24px 65px #32211b12;overflow:hidden;transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.slide:hover{box-shadow:0 30px 75px #32211b1c}
+.slide .visual{min-height:360px;position:relative;overflow:hidden;background:#e3edff}
+.slide:nth-child(2) .visual{background:#fde5d7}
+.slidecopy{padding:clamp(26px,4vw,58px)!important}
+.slidecopy h3{font-size:clamp(52px,5.5vw,86px);letter-spacing:-.06em}
+.real-game-shot{display:grid!important;place-items:center;isolation:isolate}
+.real-game-shot::before{content:'';position:absolute;inset:5%;border:1px solid #1e1b181a;border-radius:22px;transform:rotate(-2deg);pointer-events:none;z-index:1}
+.real-game-shot::after{content:'↗';position:absolute;bottom:8%;right:11%;font:800 clamp(38px,6vw,94px) Outfit;color:#2a5cde44;transform:rotate(-18deg);pointer-events:none}
+.boxio-shot::after{color:#d3432b55}
+.real-game-shot .game-preview-caption{font:800 clamp(54px,8vw,125px)/1 Outfit,Arial;letter-spacing:-.07em;transform:rotate(-7deg);position:relative;z-index:2;transition:transform .48s var(--ease)}
+.real-game-shot:hover .game-preview-caption{transform:rotate(-4deg) scale(1.07)}
+.real-game-shot img.actual-game-capture{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:4;transition:transform .6s var(--ease)}
+.real-game-shot:hover img.actual-game-capture{transform:scale(1.045)}
+.real-game-shot:has(img.actual-game-capture) .game-preview-caption{display:none}
+.real-game-shot .game-preview-caption{font-size:clamp(48px,7vw,112px)}
+.slide .actions{margin-top:24px}
+.numbers{padding-top:32px;align-items:center}
+.circlebtn{transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .25s}
+.circlebtn:hover:not(:disabled){transform:translateY(-3px) rotate(6deg);box-shadow:0 12px 25px #d3432b30}
+.news{gap:20px}.story{transition:transform .35s var(--ease),box-shadow .35s var(--ease)}.story:hover{transform:translateY(-6px);box-shadow:0 15px 30px #1e1b1810}
+.manifesto{position:relative;overflow:hidden}.manifesto::before{content:'✳';position:absolute;left:2%;top:15%;font:900 130px Outfit;color:#d3432b18}.manifesto::after{content:'✦';position:absolute;right:4%;bottom:0;font:900 160px Outfit;color:#2a5cde14}
+.porthero{text-align:center;padding:115px 0 92px!important;background:radial-gradient(circle at 80% 15%,#f6d9c9,transparent 35%),#fff8f4}
+.porthero h1{font-size:clamp(68px,10vw,135px)!important;letter-spacing:-.075em}
+.porthero p{margin:18px auto 30px!important;max-width:690px!important;font-size:20px!important}
+.portgrid{display:flex!important;flex-direction:column;gap:96px!important}
+.game{display:grid!important;grid-template-columns:1.1fr .9fr!important;gap:0!important;align-items:stretch;border-radius:34px;overflow:hidden;background:white;box-shadow:0 18px 60px #1e1b1810;min-height:480px}
+.game:nth-child(even){grid-template-columns:.9fr 1.1fr!important}
+.game:nth-child(even) .visual{order:2}
+.game:nth-child(even) .gamecopy{order:1}
+.game .visual{min-height:470px}
+.gamecopy{padding:clamp(35px,5vw,82px)!important;display:flex;flex-direction:column;justify-content:center}
+.gamecopy h2{font-size:clamp(54px,6vw,88px);letter-spacing:-.06em}
+.gamecopy p{font-size:18px;line-height:1.7}
+.portfoot{text-align:center;padding:85px 0 10px}
+.portfoot h2{font-size:clamp(36px,5vw,64px)}
+[data-reveal]{opacity:0;transform:translateY(45px);transition:opacity .75s var(--ease),transform .75s var(--ease)}[data-reveal].revealed{opacity:1;transform:translateY(0)}
+@media(max-width:900px){.game,.game:nth-child(even){display:flex!important;flex-direction:column!important}.game:nth-child(even) .visual,.game:nth-child(even) .gamecopy{order:initial}.game .visual{min-height:320px}.portgrid{gap:40px!important}}
+@media(max-width:700px){.hero{padding:64px 0 35px}.hero h1{font-size:clamp(53px,13vw,88px)}.hero h1 .hero-line{display:block}.hero .actions{gap:8px}.hero-art-wrap{margin-top:28px;width:calc(100% + 24px);margin-left:-12px}.hero-illustration{min-height:250px;object-fit:cover;object-position:center}.hero-art-wrap::before,.hero-art-wrap::after{font-size:29px}.slide .visual{min-height:270px}.slidecopy h3{font-size:54px}.sectionheading h2{font-size:49px}.showcase::before{display:none}.porthero{padding:72px 0!important}.porthero h1{font-size:clamp(54px,13vw,85px)!important}.gamecopy{padding:28px!important}}
+@media(prefers-reduced-motion:reduce){[data-reveal]{opacity:1;transform:none}*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+
+/* V5.4 | Juegos: mismo mecanismo parallax de Inicio V5.2, no una simple imagen desplazándose 55px. */
+.games-parallax{padding:0!important;overflow:visible!important;background:var(--ivory)}
+.games-scene{position:relative;height:190svh;min-height:1050px;background:var(--ivory)}
+.games-sticky{position:sticky;top:82px;height:calc(100svh - 82px);min-height:590px;isolation:isolate;overflow:hidden;background:var(--ivory)}
+.games-scene-image{position:absolute;inset:-5% 0;z-index:1;transform:translate3d(0,110%,0);will-change:transform;pointer-events:none}
+.games-scene-image img{display:block;width:100%;height:100%;object-fit:cover;object-position:center center}
+.games-scene-image::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,rgba(30,27,24,.10),transparent 55%)}
+.games-scene-copy{position:relative;z-index:2;width:100%;height:100%;padding:clamp(24px,4vw,58px) 24px 64px;display:flex;align-items:center;justify-content:center;text-align:center;flex-direction:column}
+.games-kicker{font-size:12px;letter-spacing:.2em;color:#9d2c1c;text-shadow:0 2px 0 var(--ivory),2px 0 0 var(--ivory),-2px 0 0 var(--ivory)}
+.games-headline{margin:18px 0 20px;display:flex;flex-direction:column;align-items:center;font-size:clamp(74px,12.5vw,194px);line-height:.91;letter-spacing:-.068em;font-weight:800}
+.games-headline>span{display:block;color:var(--ink);-webkit-text-stroke:6px var(--ivory);paint-order:stroke fill;text-shadow:0 3px 22px rgba(255,248,244,.35);animation:games-enter .8s cubic-bezier(.16,1,.3,1) both}
+.games-headline>span:nth-child(2){animation-delay:.13s}
+.games-headline em{color:var(--blue);font-style:normal;-webkit-text-stroke:6px var(--ivory)}
+.games-intro{font-size:clamp(16px,1.7vw,22px);line-height:1.5;max-width:740px;margin:6px 0 0;font-weight:600;-webkit-text-stroke:3px var(--ivory);paint-order:stroke fill;text-shadow:0 2px 8px var(--ivory);color:var(--ink)}
+.games-actions{margin-top:22px;justify-content:center}.games-actions .btn{box-shadow:0 4px 0 #fff8f4aa,0 12px 30px #1e1b1820}
+.games-scroll-cue{position:absolute;z-index:2;bottom:15px;left:50%;transform:translateX(-50%);white-space:nowrap;font:800 11px 'Plus Jakarta Sans',sans-serif;text-transform:uppercase;letter-spacing:.13em;border-radius:99px;background:#fff8f4ec;color:#9f3928;padding:10px 16px}
+.games-scroll-cue span{display:inline-block;margin-left:6px;animation:games-cue 1.7s ease-in-out infinite}
+@keyframes games-cue{50%{transform:translateY(4px)}}
+@keyframes games-enter{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:800px){
+.games-scene{height:168svh;min-height:960px}
+.games-sticky{top:80px;height:calc(100svh - 80px);min-height:520px}
+.games-headline{font-size:clamp(64px,14vw,112px);margin:15px 0}
+.games-headline>span,.games-headline em{-webkit-text-stroke:4px var(--ivory)}
+.games-scene-copy{padding:20px 14px 60px}
+.games-intro{font-size:16px;-webkit-text-stroke:2px var(--ivory)}
+.games-actions .btn{font-size:13px;padding:12px 14px}
+.games-scene-image img{object-position:63% 50%}
+}
+@media(max-width:430px){.games-headline{font-size:clamp(51px,14vw,65px)}.games-intro{font-size:14px}.games-kicker{font-size:9px}.games-actions{flex-direction:column;align-items:stretch;width:min(100%,270px)}}
+@media(prefers-reduced-motion:reduce){
+.games-scene{height:auto;min-height:0}.games-sticky{position:relative;top:auto;height:auto;min-height:640px}
+.games-scene-image{inset:0;transform:none!important;opacity:.55;will-change:auto}
+.games-headline>span,.games-scroll-cue span{animation:none!important}.games-scroll-cue{display:none}
+}
+</style></head><body><header class="top"><div class="shell nav"><a class="logo" href="inicio.html"><b>BEASTIE</b><small>STUDIO</small></a><button aria-controls="navlinks" aria-expanded="false" class="menu">☰ Menú</button><nav class="navlinks" id="navlinks"><a href="inicio.html">Inicio</a><a href="juegos.html">Juegos</a><a href="https://beastie-studio.silverman.pro/novedades">Novedades</a><a href="https://beastie-studio.silverman.pro/nosotros">Nosotros</a><a href="https://beastie-studio.silverman.pro/apoyanos">Apóyanos</a></nav></div></header><main><section class="games-parallax" aria-label="Presentación del portafolio" id="portafolio">
+  <div class="games-scene" id="games-scene">
+    <div class="games-sticky">
+      <div class="games-scene-image" aria-hidden="true"><img src="assets/hero-juegos-islass.webp" alt="" width="1648" height="928" fetchpriority="high" decoding="async" /></div>
+      <div class="games-scene-copy">
+        <span class="eyebrow games-kicker">Portafolio creativo</span>
+        <h1 class="games-headline"><span>Nuestros</span><span><em>juegos.</em></span></h1>
+        <p class="games-intro">Dos maneras de descubrir, pensar y compartir. Cada juego tiene su personalidad; todos llevan el cariño de nuestro estudio.</p>
+        <div class="actions games-actions"><a class="btn" href="#catalogo">Explorar juegos ↓</a><a class="btn outline" href="inicio.html">Volver al estudio ↗</a></div>
+      </div>
+      <div class="games-scroll-cue" aria-hidden="true">Desliza para explorar <span>↓</span></div>
+    </div>
+  </div>
+</section><section id="catalogo"><div class="shell"><div class="portgrid"><article class="game" data-reveal="" id="multiplo"><div aria-label="Múltiplo. Portada tipográfica del proyecto" class="visual real-game-shot" data-screenshot="multiplo" role="img"><span class="game-preview-caption">Múltiplo</span></div><div class="gamecopy"><span class="eyebrow">Aprendizaje · Navegador</span><h2>Múltiplo</h2><p>Un juego para acercarse a la multiplicación a través de retos visuales y curiosidad.</p><div class="actions"><a class="btn" href="https://multiplo.silverman.pro/">Jugar ahora ↗</a><a class="btn outline" href="https://beastie-studio.silverman.pro/juegos/multiplo">Conocer proyecto</a></div></div></article><article class="game" data-reveal="" id="boxio"><div aria-label="Boxio. Portada tipográfica del proyecto" class="visual real-game-shot boxio-shot" data-screenshot="boxio" role="img"><span class="game-preview-caption">Boxio</span></div><div class="gamecopy"><span class="eyebrow">Estrategia · Navegador</span><h2>Boxio</h2><p>Un clásico de Puntos y Cajas: reglas claras y cada vez más decisiones interesantes.</p><div class="actions"><a class="btn blue" href="https://boxio.silverman.pro/">Jugar ahora ↗</a><a class="btn outline" href="https://beastie-studio.silverman.pro/juegos/boxio">Conocer proyecto</a></div></div></article></div><div class="portfoot" data-reveal=""><span class="eyebrow">En constante creación</span><h2>El estudio sigue explorando.</h2><p>Este portafolio crecerá con nuevas experiencias. Y estamos trabajando en lo que viene.</p></div></div></section></main><footer class="footer" id="pie"><div class="shell"><div><div class="logo"><b>BEASTIE</b><small>STUDIO</small></div><p>Juegos hechos con cariño.</p></div><div><p>Descubrir. Pensar. Compartir.</p><a href="https://beastie-studio.silverman.pro/apoyanos">Conoce cómo apoyar el estudio ↗</a></div></div></footer><script>const m=document.querySelector('.menu');m.onclick=()=>{const open=m.getAttribute('aria-expanded')==='true';m.setAttribute('aria-expanded',String(!open));document.querySelector('.navlinks').classList.toggle('open',!open)};</script><script>
+
+/* Estados y navegación accesibles. */
+
+(function(){
+  const here=(location.pathname.split('/').pop()||'inicio.html').toLowerCase();
+  document.querySelectorAll('.navlinks a[href]').forEach(a=>{
+    const href=(a.getAttribute('href')||'').toLowerCase();
+    if(href===here || (here==='' && href==='inicio.html')) a.classList.add('current');
+  });
+})();
+
+
+</script>
+<script>
+(() => {
+ const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ document.querySelectorAll('[data-reveal]').forEach(el=>{if(rm||!('IntersectionObserver' in window)){el.classList.add('revealed');return;}const observer=new IntersectionObserver(entries=>{entries.forEach(x=>{if(x.isIntersecting){x.target.classList.add('revealed');observer.unobserve(x.target)}})},{threshold:.10});observer.observe(el)});
+ // Loads only authentic captures supplied in assets/screenshots; never generates substitutes.
+ document.querySelectorAll('[data-screenshot]').forEach(panel=>{let slug=panel.dataset.screenshot;const image=new Image();image.alt='Captura real del juego '+(slug==='multiplo'?'Múltiplo':'Boxio');image.className='actual-game-capture';image.loading='lazy';image.decoding='async';image.onload=()=>panel.append(image);image.src='assets/screenshots/'+slug+'-gameplay.webp';});
+ document.querySelectorAll('.navlinks a').forEach(link=>{if(link.getAttribute('href')===(location.pathname.split('/').pop()||'inicio.html')){link.classList.add('current');link.setAttribute('aria-current','page')}});
+})();
+</script><script>
+// Frame-perfect scroll progress: illustration travels from below to behind the stationary title.
+(()=>{
+ const scene=document.getElementById('games-scene');const layer=scene?.querySelector('.games-scene-image');
+ if(!scene||!layer)return;
+ const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');let raf=0;
+ const update=()=>{
+  raf=0;if(reduced.matches){layer.style.transform='';return;}
+  const rect=scene.getBoundingClientRect();const stickyTop=window.innerWidth<=800?80:82;
+  const distance=Math.max(1,rect.height-window.innerHeight+stickyTop);
+  const p=Math.max(0,Math.min(1,-rect.top/distance));
+  layer.style.transform=`translate3d(0,${(110-p*121).toFixed(2)}%,0)`;
+ };
+ const schedule=()=>{if(!raf)raf=requestAnimationFrame(update)};
+ addEventListener('scroll',schedule,{passive:true});addEventListener('resize',schedule,{passive:true});
+ reduced.addEventListener?.('change',schedule);update();
+})();
+</script></body></html>
