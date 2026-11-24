@@ -41,3 +41,7 @@ Importante: las capturas de Múltiplo son **verticales**, las de Boxio **horizon
 ## Control de cambios
 - [#19 — Implementación visual y capturas](https://github.com/silverberdi/beastie-studio/issues/19)
 - [#20 — SEO, semántica y preparación de producción](https://github.com/silverberdi/beastie-studio/issues/20)
+
+## Composiciones de capturas auténticas para Home y Juegos
+- [Composiciones editoriales de Múltiplo y Boxio](composiciones-capturas.html): referencia HTML/CSS **versionada**, usa tres capturas reales de Múltiplo y dos de Boxio sin alterar los fotogramas, con microanimaciones hover y tratamiento apropiado de sus proporciones. Es complemento de la V5.4, para corregir la falta de protagonismo del catálogo.
+- [Issue correctivo #28](https://github.com/silverberdi/beastie-studio/issues/28): **validación visual real** de parallax, transiciones de botones, portafolio y composición de screenshots en el sitio publicado. No aceptar solo presencia de selectores o una ejecución de tests unitarios.
