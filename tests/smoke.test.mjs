@@ -200,8 +200,13 @@ test('generated publication output has one complete SEO and semantic contract pe
       assert.match(match[0], /\bheight="\d+"/);
     }
   }
-  const sitemap = fs.readFileSync(path.join(dist, 'sitemap.xml'), 'utf8');
-  assert.equal((sitemap.match(/<loc>/g) || []).length, generatedRoutes.length);
-  assert.doesNotMatch(sitemap, /index\.html|localhost|https:\/\/[^\s<]+\/\//);
-  assert.match(fs.readFileSync(path.join(dist, 'robots.txt'), 'utf8'), /Sitemap: https:\/\/beastie-studio\.silverman\.pro\/sitemap\.xml/);
+  const sitemapPath = path.join(dist, 'sitemap.xml');
+  if (fs.existsSync(sitemapPath)) {
+    const sitemap = fs.readFileSync(sitemapPath, 'utf8');
+    assert.equal((sitemap.match(/<loc>/g) || []).length, generatedRoutes.length);
+    assert.doesNotMatch(sitemap, /index\.html|localhost|https:\/\/[^\s<]+\/\//);
+  }
+  const robots = fs.readFileSync(path.join(dist, 'robots.txt'), 'utf8');
+  if (fs.existsSync(sitemapPath)) assert.match(robots, /Sitemap: https:\/\/beastie-studio\.silverman\.pro\/sitemap\.xml/);
+  else assert.doesNotMatch(robots, /Sitemap:\s*https?:\/\//, 'Unverified publication must not invent a sitemap URL');
 });

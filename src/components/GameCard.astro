@@ -1,7 +1,7 @@
 ---
-const { game } = Astro.props;
+const { game, index = 0 } = Astro.props;
 ---
-<article class="game-card">
+<article class:list={["game-card", "portfolio-project", { "portfolio-project-reverse": index % 2 === 1 }]}>
   <div class="game-card-visual screenshot-frame"><img src={game.primaryScreenshot} alt={game.primaryScreenshotAlt} width={game.primaryScreenshotWidth} height={game.primaryScreenshotHeight} srcset={`${game.primaryScreenshot} ${game.primaryScreenshotWidth}w`} sizes="(max-width: 700px) 100vw, 50vw" loading="lazy" decoding="async" /></div>
   <div class="game-card-body">
     <p class="eyebrow">{game.name}</p>

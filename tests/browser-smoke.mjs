@@ -62,7 +62,7 @@ await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
 const PORT = server.address().port;
 const BASE_URL = `http://127.0.0.1:${PORT}`;
 const browserMode = process.env.BEASTIE_BROWSER_MODE || 'desktop';
-const captureDir = path.join('openspec', 'changes', 'req-19-website-v54-implementar-heroes-parallax', 'evidence', 'captures');
+const captureDir = path.join('openspec', 'changes', 'req-25-website-v54-correccion-de-fidelidad-visu', 'evidence', 'captures');
 fs.mkdirSync(captureDir, { recursive: true });
 const captureRoutes = browserMode === 'desktop'
   ? ['', 'juegos', 'juegos/multiplo', 'juegos/boxio', 'nosotros', 'novedades', 'novedades/por-que-creamos-multiplo', 'apoyanos']
@@ -137,6 +137,15 @@ async function runBrowserChecks() {
       }
       await page.goto(`${BASE_URL}/juegos/`, { waitUntil: 'domcontentloaded' });
       assert.equal(await page.$$eval('.game-card a[href^="https://"]', (links) => links.length), 2);
+      const assetChecks = await page.evaluate(async () => {
+        const urls = [...document.querySelectorAll('img')].map((image) => image.currentSrc || image.src);
+        const responses = await Promise.all(urls.map(async (url) => ({ url, status: (await fetch(url)).status })));
+        return responses;
+      });
+      assert.ok(assetChecks.length >= 3);
+      assert.ok(assetChecks.every(({ status }) => status === 200), `Public image responses must be 200: ${JSON.stringify(assetChecks)}`);
+      const portfolio = await page.$$eval('.portfolio-project', (projects) => projects.map((project) => getComputedStyle(project).display));
+      assert.deepEqual(portfolio, ['grid', 'grid'], 'Catalog must use the shared editorial project component');
       await captureFullRoutes();
       console.log('PASS Chromium desktop: support route metadata, pending channels, conceptual alt, and 0 horizontal overflow.');
       return;
@@ -188,11 +197,40 @@ async function runBrowserChecks() {
     await page.goto(`${BASE_URL}/index.html`, { waitUntil: 'domcontentloaded' });
 
     assert.equal(await page.$eval('.parallax-hero', (hero) => hero.style.getPropertyValue('--hero-image').includes('hero-parque-beastie.webp')), true);
+    const heroOffsets = [];
+    for (const fraction of [0, .5, 1]) {
+      await page.evaluate((ratio) => {
+        const hero = document.querySelector('.parallax-hero');
+        window.scrollTo(0, hero.offsetTop + hero.offsetHeight * ratio);
+      }, fraction);
+      await new Promise((resolve) => setTimeout(resolve, 80));
+      heroOffsets.push(await page.$eval('.parallax-hero', (hero) => ({ progress: hero.style.getPropertyValue('--parallax-progress'), offset: hero.style.getPropertyValue('--parallax-offset') })));
+    }
+    assert.ok(new Set(heroOffsets.map(({ offset }) => offset)).size > 1, `Hero image movement must be observable: ${JSON.stringify(heroOffsets)}`);
+    assert.ok(heroOffsets.every(({ progress }) => progress !== ''), 'Hero progress must be exposed at each measured stage');
+    const cls = await page.evaluate(() => performance.getEntriesByType('layout-shift').reduce((sum, entry) => sum + (entry.hadRecentInput ? 0 : entry.value), 0));
+    assert.ok(Number.isFinite(cls), 'CLS measurement must be numeric');
+    console.log(`E2E mobile: home hero stages=${JSON.stringify(heroOffsets)} CLS=${cls}`);
     assert.equal(await page.$$eval('.game-slide', (slides) => slides.length), 2, 'Home carousel must derive two slides from games data');
     await page.click('[data-carousel-next]');
-    assert.equal(await page.$eval('[data-slide="1"]', (slide) => !slide.hidden && slide.getAttribute('aria-hidden') === 'false'), true, 'Carousel next control must change active slide');
+    assert.equal(await page.$eval('[data-slide="1"]', (slide) => slide.getAttribute('aria-hidden') === 'false' && !slide.inert), true, 'Carousel next control must change active slide');
+    assert.notEqual(await page.$eval('.game-carousel-track', (track) => getComputedStyle(track).transform), 'none', 'Carousel must move a visible track');
     await page.keyboard.press('ArrowLeft');
-    assert.equal(await page.$eval('[data-slide="0"]', (slide) => !slide.hidden), true, 'Carousel keyboard navigation must restore first slide');
+    assert.equal(await page.$eval('[data-slide="0"]', (slide) => slide.getAttribute('aria-hidden') === 'false' && !slide.inert), true, 'Carousel keyboard navigation must restore first slide');
+    for (const count of [5, 10]) {
+      await page.goto(`${BASE_URL}/index.html`, { waitUntil: 'domcontentloaded' });
+      await page.evaluate((targetCount) => {
+        const track = document.querySelector('.game-carousel-track');
+        const template = track.querySelector('[data-slide]');
+        while (track.querySelectorAll('[data-slide]').length < targetCount) {
+          const clone = template.cloneNode(true);
+          clone.dataset.slide = String(track.querySelectorAll('[data-slide]').length);
+          track.append(clone);
+        }
+      }, count);
+      if (count > 0) for (let index = 0; index < count - 1; index += 1) await page.click('[data-carousel-next]');
+      assert.equal(await page.$eval(`[data-slide="${count - 1}"]`, (slide) => slide.getAttribute('aria-hidden') === 'false'), true, `Carousel must navigate deterministically with ${count} entries`);
+    }
     await page.goto(`${BASE_URL}/juegos/`, { waitUntil: 'domcontentloaded' });
     assert.equal(await page.$eval('.parallax-hero', (hero) => hero.style.getPropertyValue('--hero-image').includes('hero-juegos-islass.webp')), true);
     for (const width of [320, 375, 768, 1024, 1440]) {
@@ -202,7 +240,16 @@ async function runBrowserChecks() {
     await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
     await page.goto(`${BASE_URL}/index.html`, { waitUntil: 'domcontentloaded' });
     assert.equal(await page.$eval('.parallax-hero-image', (image) => getComputedStyle(image).transform === 'none'), true, 'Reduced motion must disable parallax transform');
+    assert.equal(await page.$eval('.game-carousel-track', (track) => Number.parseFloat(getComputedStyle(track).transitionDuration) <= 0.001), true, 'Reduced motion must remove carousel movement');
     await page.emulateMediaFeatures([]);
+
+    const noScript = await browser.newPage();
+    await noScript.setJavaScriptEnabled(false);
+    await noScript.setViewport({ width: 375, height: 812 });
+    await noScript.goto(`${BASE_URL}/index.html`, { waitUntil: 'domcontentloaded' });
+    assert.equal(await noScript.$$eval('a[href]', (links) => links.length > 8), true, 'No-JS fallback keeps navigation and content links available');
+    assert.equal(await noScript.$eval('h1', (heading) => getComputedStyle(heading).visibility !== 'hidden'), true, 'No-JS fallback keeps hero content visible');
+    await noScript.close();
 
     // Navigate to /apoyanos via mobile CTA
     assert.equal(await page.$eval('.footer-support', (link) => link.getAttribute('href')), '/apoyanos', 'Footer support link must target /apoyanos');

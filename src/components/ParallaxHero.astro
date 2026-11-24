@@ -1,12 +1,12 @@
 ---
-const { image, imageAlt, eyebrow, title, description, ctaHref, ctaLabel } = Astro.props;
+const { image, imageAlt, eyebrow, title, titleLines = [title], description, ctaHref, ctaLabel } = Astro.props;
 ---
 <section class="parallax-hero" data-parallax style={`--hero-image: url('${image}')`}>
   <img class="parallax-hero-image" src={image} alt={imageAlt} width="1672" height="941" srcset={`${image} 1672w`} sizes="100vw" fetchpriority="high" decoding="async" />
   <div class="parallax-hero-overlay"></div>
   <div class="shell parallax-hero-content">
     <p class="eyebrow">{eyebrow}</p>
-    <h1>{title}</h1>
+    <h1>{titleLines.map((line, index) => <span class:list={{ 'hero-title-line': true, 'hero-title-accent': line === 'Pensar.' }}>{line}</span>)}</h1>
     <p class="lead">{description}</p>
     <div class="button-row"><a class="button button-primary" href={ctaHref}>{ctaLabel} <span aria-hidden="true">→</span></a></div>
   </div>
