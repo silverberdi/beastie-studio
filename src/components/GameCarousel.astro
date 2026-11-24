@@ -3,8 +3,10 @@ import GameCard from './GameCard.astro';
 const { games } = Astro.props;
 ---
 <div class="game-carousel" data-game-carousel aria-label="Juegos destacados">
-  <div class="game-carousel-track">
-    {games.map((game, index) => <div class="game-slide" data-slide={index} aria-hidden={index !== 0}><GameCard game={game} /></div>)}
+  <div class="game-carousel-viewport">
+    <div class="game-carousel-track">
+      {games.map((game, index) => <div class="game-slide" data-slide={index} aria-hidden={index !== 0}><GameCard game={game} index={index} /></div>)}
+    </div>
   </div>
   <div class="carousel-controls">
     <button class="carousel-arrow" type="button" data-carousel-prev aria-label="Juego anterior">←</button>
@@ -17,12 +19,15 @@ const { games } = Astro.props;
 <script>
   const root = document.querySelector('[data-game-carousel]');
   if (root) {
-    const slides = [...root.querySelectorAll('[data-slide]')];
+    const getSlides = () => [...root.querySelectorAll('[data-slide]')];
     const dots = [...root.querySelectorAll('[data-carousel-dot]')];
     let active = 0;
     const render = (next) => {
+      const slides = getSlides();
+      if (!slides.length) return;
       active = (next + slides.length) % slides.length;
-      slides.forEach((slide, index) => { slide.hidden = index !== active; slide.setAttribute('aria-hidden', String(index !== active)); });
+      root.style.setProperty('--carousel-index', String(active));
+      slides.forEach((slide, index) => { const inactive = index !== active; slide.setAttribute('aria-hidden', String(inactive)); slide.inert = inactive; });
       dots.forEach((dot, index) => { dot.setAttribute('aria-selected', String(index === active)); dot.classList.toggle('is-active', index === active); });
     };
     root.querySelector('[data-carousel-prev]')?.addEventListener('click', () => render(active - 1));
