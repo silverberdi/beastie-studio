@@ -39,6 +39,7 @@ const mimeTypes = {
   '.jpg': 'image/jpeg',
   '.svg': 'image/svg+xml',
   '.ico': 'image/x-icon',
+  '.webp': 'image/webp',
 };
 
 const server = http.createServer((req, res) => {
@@ -61,7 +62,7 @@ await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
 const PORT = server.address().port;
 const BASE_URL = `http://127.0.0.1:${PORT}`;
 const browserMode = process.env.BEASTIE_BROWSER_MODE || 'desktop';
-const captureDir = path.join('openspec', 'changes', 'req-14-website-enlazar-multiplo-y-boxio-publica', 'evidence', 'captures');
+const captureDir = path.join('openspec', 'changes', 'req-19-website-v54-implementar-heroes-parallax', 'evidence', 'captures');
 fs.mkdirSync(captureDir, { recursive: true });
 const captureRoutes = browserMode === 'desktop'
   ? ['', 'juegos', 'juegos/multiplo', 'juegos/boxio', 'nosotros', 'novedades', 'novedades/por-que-creamos-multiplo', 'apoyanos']
@@ -85,7 +86,12 @@ async function runBrowserChecks() {
         const brokenImages = await page.$$eval('img', (images) => images.filter((image) => !image.complete || image.naturalWidth === 0).map((image) => image.src));
         assert.deepEqual(brokenImages, [], `Images must load on ${route || '/'}`);
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth), false, `Horizontal overflow on ${route || '/'}`);
-        await page.screenshot({ path: path.join(captureDir, `${browserMode}-${route.replaceAll('/', '-') || 'home'}.png`), fullPage: true });
+        const safeRoute = route.replaceAll('/', '-') || 'home';
+        for (const [position, fraction] of [['start', 0], ['middle', .5], ['end', 1]]) {
+          await page.evaluate((ratio) => window.scrollTo(0, (document.documentElement.scrollHeight - window.innerHeight) * ratio), fraction);
+          await new Promise((resolve) => setTimeout(resolve, 50));
+          await page.screenshot({ path: path.join(captureDir, `${browserMode}-${safeRoute}-${position}.png`), fullPage: false });
+        }
       }
     }
     if (browserMode === 'mobile') {
@@ -175,19 +181,30 @@ async function runBrowserChecks() {
     assert.equal(navOpen, false, 'Nav must lose is-open after second click');
 
     // Support CTA unobstructed and navigable on mobile
-    const ctaVisibleMobile = await page.$eval('.support-cta', (el) => {
-      const style = window.getComputedStyle(el);
-      return style.display !== 'none' && style.visibility !== 'hidden';
-    });
-    assert.equal(ctaVisibleMobile, true, 'Support CTA must remain visible and accessible on mobile');
-
     mobileOverflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
-    assert.equal(mobileOverflow, false, 'Horizontal overflow detected on mobile with floating CTA');
+    assert.equal(mobileOverflow, false, 'Horizontal overflow detected on mobile');
 
     await page.goto(`${BASE_URL}/index.html`, { waitUntil: 'domcontentloaded' });
 
+    assert.equal(await page.$eval('.parallax-hero', (hero) => hero.style.getPropertyValue('--hero-image').includes('hero-parque-beastie.webp')), true);
+    assert.equal(await page.$$eval('.game-slide', (slides) => slides.length), 2, 'Home carousel must derive two slides from games data');
+    await page.click('[data-carousel-next]');
+    assert.equal(await page.$eval('[data-slide="1"]', (slide) => !slide.hidden && slide.getAttribute('aria-hidden') === 'false'), true, 'Carousel next control must change active slide');
+    await page.keyboard.press('ArrowLeft');
+    assert.equal(await page.$eval('[data-slide="0"]', (slide) => !slide.hidden), true, 'Carousel keyboard navigation must restore first slide');
+    await page.goto(`${BASE_URL}/juegos/`, { waitUntil: 'domcontentloaded' });
+    assert.equal(await page.$eval('.parallax-hero', (hero) => hero.style.getPropertyValue('--hero-image').includes('hero-juegos-islass.webp')), true);
+    for (const width of [320, 375, 768, 1024, 1440]) {
+      await page.setViewport({ width, height: 900 });
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth), false, `V5 overflow at ${width}px`);
+    }
+    await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
+    await page.goto(`${BASE_URL}/index.html`, { waitUntil: 'domcontentloaded' });
+    assert.equal(await page.$eval('.parallax-hero-image', (image) => getComputedStyle(image).transform === 'none'), true, 'Reduced motion must disable parallax transform');
+    await page.emulateMediaFeatures([]);
+
     // Navigate to /apoyanos via mobile CTA
-    assert.equal(await page.$eval('.support-cta', (link) => link.getAttribute('href')), '/apoyanos', 'Mobile CTA must target /apoyanos');
+    assert.equal(await page.$eval('.footer-support', (link) => link.getAttribute('href')), '/apoyanos', 'Footer support link must target /apoyanos');
 
     await page.goto(`${BASE_URL}/juegos/index.html`, { waitUntil: 'domcontentloaded' });
     assert.equal(await page.$$eval('.game-card', (cards) => cards.length), 2, 'Catalog must contain exactly two games');
@@ -205,7 +222,7 @@ async function runBrowserChecks() {
       const expectedUrl = slug === 'multiplo' ? 'https://multiplo.silverman.pro/' : 'https://boxio.silverman.pro/';
       assert.equal(await page.$eval(`a[href="${expectedUrl}"]`, (link) => link.textContent.includes('Jugar')), true, `Verified ${slug} must expose Jugar`);
       assert.equal(await page.$eval('.game-detail a[href="/juegos"]', (link) => link.textContent.includes('Conocer')), true, `${slug} must retain internal Conocer`);
-      assert.match(await page.$eval('.conceptual-art', (el) => el.getAttribute('aria-label')), /Ilustración conceptual/);
+      assert.equal(await page.$eval('.game-detail-visual img', (image) => image.complete && image.naturalWidth > 0), true);
     }
 
     await page.goto(`${BASE_URL}/apoyanos/index.html`, { waitUntil: 'domcontentloaded' });

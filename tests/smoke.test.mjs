@@ -68,6 +68,11 @@ test('catalog data maps each game to one canonical public URL', async () => {
   });
   assert.equal(new Set(games.map((game) => game.publicUrl)).size, games.length);
   assert.ok(games.every((game) => new URL(game.publicUrl).protocol === 'https:'));
+  assert.deepEqual(games.map(({ slug, primaryScreenshot }) => [slug, primaryScreenshot]), [
+    ['multiplo', '/assets/v5/screenshots/multiplo/multiplo-pregunta-1.webp'],
+    ['boxio', '/assets/v5/screenshots/boxio/boxio-partida-local.webp'],
+  ]);
+  assert.ok(games.every((game) => game.gallery?.length));
 });
 test('game surfaces derive external Jugar and internal Conocer links from the registry', () => {
   const card = fs.readFileSync(path.join(root, 'src/components/GameCard.astro'), 'utf8');
@@ -78,6 +83,34 @@ test('game surfaces derive external Jugar and internal Conocer links from the re
   assert.match(detail, /href="\/juegos"/);
   assert.doesNotMatch(card, /multiplo\.silverman|boxio\.silverman/);
   assert.doesNotMatch(detail, /multiplo\.silverman|boxio\.silverman/);
+  assert.doesNotMatch(card, /illustration-.*concept\.png/);
+  assert.doesNotMatch(detail, /Ilustración conceptual/);
+});
+
+test('V5 heroes and screenshot manifest are copied without changing immutable assets', () => {
+  const manifest = JSON.parse(fs.readFileSync(path.join(root, 'docs/design/references/v5/assets/screenshots/manifest.json')));
+  const assets = [
+    ['assets/v5/hero-parque-beastie.webp', '106eacf7b7b937a47135aa7d67fa4c666546a87534c3ad850f23f26d30a84678'],
+    ['assets/v5/hero-juegos-islass.webp', '3b9ca7e217a431e3bd9608b0e8b2153cdb4c01f5837b634938a8a48c37ace6b4'],
+  ];
+  for (const [file, hash] of assets) assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(root, 'public', file))).digest('hex'), hash, file);
+  for (const game of Object.values(manifest.games)) for (const image of game) {
+    const file = path.join(root, 'public/assets/v5/screenshots', image.file);
+    assert.equal(crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex'), image.sha256, image.file);
+  }
+});
+
+test('V5 pages use distinct heroes, accessible carousel, and no floating support action', () => {
+  const home = fs.readFileSync(path.join(root, 'src/pages/index.astro'), 'utf8');
+  const catalog = fs.readFileSync(path.join(root, 'src/pages/juegos.astro'), 'utf8');
+  const layout = fs.readFileSync(path.join(root, 'src/layouts/BaseLayout.astro'), 'utf8');
+  const carousel = fs.readFileSync(path.join(root, 'src/components/GameCarousel.astro'), 'utf8');
+  assert.match(home, /hero-parque-beastie\.webp/);
+  assert.match(catalog, /hero-juegos-islass\.webp/);
+  assert.match(carousel, /data-carousel-next/);
+  assert.match(carousel, /touchstart/);
+  assert.match(carousel, /ArrowRight/);
+  assert.doesNotMatch(layout, /class="support-cta"/);
 });
 test('editorial routes replace foundation placeholders and use real internal CTAs', () => {
   for (const route of ['', 'juegos', 'nosotros']) {
