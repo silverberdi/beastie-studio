@@ -84,6 +84,32 @@
   transform: rotate(-8deg);
 }
 
+.parallax-hero { position:relative; min-height:clamp(560px, 72vh, 820px); display:flex; align-items:center; overflow:hidden; isolation:isolate; background:#332a28; color:#fff; }
+.parallax-hero-image { position:absolute; inset:-8% 0; z-index:-2; background-image:var(--hero-image); background-position:center; background-size:cover; transform:translate3d(0, var(--parallax-offset, 0px), 0) scale(1.08); will-change:transform; }
+.parallax-hero-overlay { position:absolute; inset:0; z-index:-1; background:linear-gradient(90deg, rgba(30,27,24,.78), rgba(30,27,24,.2) 70%, rgba(30,27,24,.08)); }
+.parallax-hero-content { padding:clamp(6rem, 12vw, 10rem) 0; }
+.parallax-hero h1 { max-width:900px; margin-bottom:1.5rem; color:#fff; text-shadow:-2px -2px 0 var(--ivory), 2px -2px 0 var(--ivory), -2px 2px 0 var(--ivory), 2px 2px 0 var(--ivory), 0 4px 24px rgba(30,27,24,.35); }
+.parallax-hero .lead { max-width:650px; color:#fff; text-shadow:0 2px 12px rgba(30,27,24,.8); }
+.game-card-visual, .game-detail-visual { display:flex; align-items:center; justify-content:center; overflow:hidden; background:#f2e9e3; }
+.game-card-visual { height:clamp(280px, 34vw, 430px); }
+.game-card-visual img, .game-detail-visual img, .gallery-item img { display:block; width:100%; height:100%; object-fit:contain; }
+.game-detail-visual { min-height:430px; padding:1rem; border-radius:2rem; }
+.game-gallery { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin-top:.75rem; }
+.gallery-item { height:130px; margin:0; overflow:hidden; border-radius:.75rem; background:#f2e9e3; }
+.gallery-item img { padding:.25rem; }
+.game-carousel-track { min-height:430px; }
+.game-slide[hidden] { display:none; }
+.carousel-controls { display:flex; justify-content:center; align-items:center; gap:1rem; margin-top:1.25rem; }
+.carousel-arrow, .carousel-dot { min-width:48px; min-height:48px; border:1px solid var(--line); border-radius:999px; background:#fff; color:var(--ink); font:700 1.2rem/1 inherit; cursor:pointer; }
+.carousel-dots { display:flex; gap:.5rem; }
+.carousel-dot { min-width:14px; width:14px; min-height:14px; height:14px; padding:0; }
+.carousel-dot.is-active, .carousel-dot[aria-selected="true"] { background:var(--terracotta); border-color:var(--terracotta); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior:auto; }
+  .parallax-hero-image { transform:none; }
+}
+
 @media (max-width: 700px) {
   .hero-grid,
   .principles {
@@ -98,4 +124,9 @@
   .news-home-grid {
     grid-template-columns: 1fr;
   }
+
+  .parallax-hero { min-height:620px; }
+  .parallax-hero-overlay { background:linear-gradient(180deg, rgba(30,27,24,.25), rgba(30,27,24,.78)); }
+  .game-carousel-track { min-height:0; }
+  .game-gallery { grid-template-columns:repeat(3, minmax(0, 1fr)); }
 }

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GameCard from '../components/GameCard.astro';
+import ParallaxHero from '../components/ParallaxHero.astro';
 import { games } from '../data/games.js';
 ---
-<BaseLayout title="Juegos" description="Conoce Múltiplo y Boxio, los juegos de Beastie Studio."><section class="page"><div class="shell"><p class="eyebrow">Catálogo de juegos</p><h1>Cada juego, una nueva forma de descubrir.</h1><p class="lead">Algunos nos invitan a aprender; otros, a pensar una jugada más o compartir una partida. Todos están hechos con cariño.</p><div class="pills"><span class="pill">✓ Sin anuncios ni compras ocultas</span><span class="pill">♧ Pensados para compartir</span></div><div class="card-grid" style="margin-top:4rem">{games.map((game) => <GameCard game={game} />)}</div></div></section></BaseLayout>
+<BaseLayout title="Juegos" description="Conoce Múltiplo y Boxio, los juegos de Beastie Studio."><ParallaxHero image="/assets/v5/hero-juegos-islass.webp" imageAlt="Paisaje ilustrado del catálogo de juegos." eyebrow="Catálogo de juegos" title="Nuestros juegos." description="Algunos nos invitan a aprender; otros, a pensar una jugada más o compartir una partida. Todos están hechos con cariño." ctaHref="#catalogo" ctaLabel="Ver catálogo" /><section class="section" id="catalogo"><div class="shell"><div class="card-grid">{games.map((game) => <GameCard game={game} />)}</div></div></section></BaseLayout>

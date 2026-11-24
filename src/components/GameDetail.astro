@@ -2,7 +2,12 @@
 const { game } = Astro.props;
 ---
 <article class="game-detail">
-  <figure class="game-detail-visual conceptual-art" role="img" aria-label={game.illustrationAlt}><img src={game.illustration} alt={game.illustrationAlt} width="200" height="200" /><figcaption>Ilustración conceptual para {game.name}; no es una captura del juego.</figcaption></figure>
+  <div>
+    <figure class="game-detail-visual screenshot-frame"><img src={game.primaryScreenshot} alt={game.primaryScreenshotAlt} /></figure>
+    {game.gallery?.length && <div class="game-gallery" aria-label={`Galería de ${game.name}`}>
+      {game.gallery.map((image) => <figure class="gallery-item"><img src={image.src} alt={image.alt} /></figure>)}
+    </div>}
+  </div>
   <div class="game-detail-copy">
     <p class="eyebrow">{game.name}</p><h1>{game.title}</h1><p class="lead">{game.summary}</p><p>{game.story}</p>
     <div class="button-row"><a class="button button-secondary" href="/juegos">Conocer los juegos <span aria-hidden="true">→</span></a>{game.publicUrl && <a class="button button-primary" href={game.publicUrl}>Jugar {game.name} <span aria-hidden="true">↗</span></a>}</div>

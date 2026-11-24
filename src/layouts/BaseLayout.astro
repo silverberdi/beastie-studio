@@ -54,7 +54,6 @@ const isActive = (href) => href === '/' ? activePath === '/' : activePath.starts
         <div><p class="footer-note">Descubrir. Pensar. Compartir.</p><a class="footer-support" href="/apoyanos">Conoce cómo apoyar el proyecto →</a></div>
       </div>
     </footer>
-    <a class="support-cta" href="/apoyanos">¡Apóyanos!</a>
     <script>
       const toggle = document.querySelector('.menu-toggle');
       const navigation = document.querySelector('#site-navigation');
@@ -67,6 +66,25 @@ const isActive = (href) => href === '/' ? activePath === '/' : activePath.starts
         toggle?.setAttribute('aria-expanded', 'false');
         navigation?.classList.remove('is-open');
       }));
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const parallaxHeroes = [...document.querySelectorAll('[data-parallax]')];
+      let frame = 0;
+      const updateParallax = () => {
+        frame = 0;
+        if (reducedMotion.matches) return;
+        for (const hero of parallaxHeroes) {
+          const rect = hero.getBoundingClientRect();
+          const offset = Math.max(-70, Math.min(70, (window.innerHeight / 2 - (rect.top + rect.height / 2)) * -0.12));
+          hero.style.setProperty('--parallax-offset', `${offset}px`);
+        }
+      };
+      const onScroll = () => { if (!frame) frame = requestAnimationFrame(updateParallax); };
+      if (parallaxHeroes.length && !reducedMotion.matches) {
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll, { passive: true });
+        reducedMotion.addEventListener?.('change', updateParallax);
+        updateParallax();
+      }
     </script>
   </body>
 </html>

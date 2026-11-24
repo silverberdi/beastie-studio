@@ -1,0 +1,13 @@
+---
+const { image, imageAlt, eyebrow, title, description, ctaHref, ctaLabel } = Astro.props;
+---
+<section class="parallax-hero" data-parallax style={`--hero-image: url('${image}')`}>
+  <div class="parallax-hero-image" role="img" aria-label={imageAlt}></div>
+  <div class="parallax-hero-overlay"></div>
+  <div class="shell parallax-hero-content">
+    <p class="eyebrow">{eyebrow}</p>
+    <h1>{title}</h1>
+    <p class="lead">{description}</p>
+    <div class="button-row"><a class="button button-primary" href={ctaHref}>{ctaLabel} <span aria-hidden="true">→</span></a></div>
+  </div>
+</section>
