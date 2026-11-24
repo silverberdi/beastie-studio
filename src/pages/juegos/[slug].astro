@@ -5,4 +5,4 @@ import { games } from '../../data/games.js';
 export function getStaticPaths() { return games.map((game) => ({ params: { slug: game.slug }, props: { game } })); }
 const { game } = Astro.props;
 ---
-<BaseLayout title={game.name} description={`${game.title} ${game.summary}`}><section class="page"><div class="shell"><GameDetail game={game} /></div></section></BaseLayout>
+<BaseLayout title={game.name} description={`${game.title} ${game.summary}`} image={game.primaryScreenshot} imageAlt={game.primaryScreenshotAlt} breadcrumbs={[{ name: 'Inicio', url: '/' }, { name: 'Juegos', url: '/juegos' }, { name: game.name }]} entity={{ '@type': 'VideoGame', name: game.name, description: game.summary, url: Astro.site ? new URL(`/juegos/${game.slug}`, Astro.site).href : undefined, image: Astro.site ? new URL(game.primaryScreenshot, Astro.site).href : undefined, inLanguage: 'es' }}><section class="page"><div class="shell"><GameDetail game={game} /></div></section></BaseLayout>

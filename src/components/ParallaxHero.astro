@@ -2,7 +2,7 @@
 const { image, imageAlt, eyebrow, title, description, ctaHref, ctaLabel } = Astro.props;
 ---
 <section class="parallax-hero" data-parallax style={`--hero-image: url('${image}')`}>
-  <div class="parallax-hero-image" role="img" aria-label={imageAlt}></div>
+  <img class="parallax-hero-image" src={image} alt={imageAlt} width="1672" height="941" srcset={`${image} 1672w`} sizes="100vw" fetchpriority="high" decoding="async" />
   <div class="parallax-hero-overlay"></div>
   <div class="shell parallax-hero-content">
     <p class="eyebrow">{eyebrow}</p>

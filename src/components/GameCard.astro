@@ -2,13 +2,13 @@
 const { game } = Astro.props;
 ---
 <article class="game-card">
-  <div class="game-card-visual screenshot-frame"><img src={game.primaryScreenshot} alt={game.primaryScreenshotAlt} /></div>
+  <div class="game-card-visual screenshot-frame"><img src={game.primaryScreenshot} alt={game.primaryScreenshotAlt} width={game.primaryScreenshotWidth} height={game.primaryScreenshotHeight} srcset={`${game.primaryScreenshot} ${game.primaryScreenshotWidth}w`} sizes="(max-width: 700px) 100vw, 50vw" loading="lazy" decoding="async" /></div>
   <div class="game-card-body">
     <p class="eyebrow">{game.name}</p>
     <h2>{game.title}</h2>
     <p>{game.summary}</p>
     <div class="button-row">
-      {game.publicUrl && <a class="button button-primary" href={game.publicUrl}>Jugar {game.name} <span aria-hidden="true">↗</span></a>}
+      {game.publicUrl && <a class="button button-primary" href={game.publicUrl} target="_blank" rel="noopener noreferrer">Jugar {game.name} <span aria-hidden="true">↗</span></a>}
       <a class="button button-secondary" href={`/juegos/${game.slug}`}>Conocer {game.name} <span aria-hidden="true">→</span></a>
     </div>
   </div>

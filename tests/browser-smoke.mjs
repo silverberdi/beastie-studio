@@ -82,7 +82,8 @@ async function runBrowserChecks() {
     async function captureFullRoutes() {
       for (const route of captureRoutes) {
         await page.goto(`${BASE_URL}/${route ? `${route}/` : 'index.html'}`, { waitUntil: 'domcontentloaded' });
-        await page.waitForFunction(() => [...document.images].every((image) => image.complete), { timeout: 5000 });
+        await page.evaluate(() => document.querySelectorAll('img[loading="lazy"]').forEach((image) => { image.loading = 'eager'; }));
+        await page.evaluate(() => Promise.all([...document.images].map((image) => image.decode().catch(() => undefined))));
         const brokenImages = await page.$$eval('img', (images) => images.filter((image) => !image.complete || image.naturalWidth === 0).map((image) => image.src));
         assert.deepEqual(brokenImages, [], `Images must load on ${route || '/'}`);
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth), false, `Horizontal overflow on ${route || '/'}`);
