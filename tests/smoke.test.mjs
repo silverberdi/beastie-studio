@@ -167,3 +167,41 @@ test('news index and details use generated internal slugs and article metadata',
   assert.match(detail, /href="\/juegos"/);
   assert.match(detail, /description=\{data\.summary\}/);
 });
+
+test('SEO model normalizes canonicals and omits unknown structured-data fields', async () => {
+  const { canonicalUrl, cleanObject, pageSchema } = await import('../src/data/seo.js');
+  assert.equal(canonicalUrl('/juegos/index.html/'), 'https://beastie-studio.silverman.pro/juegos');
+  assert.equal(canonicalUrl('/'), 'https://beastie-studio.silverman.pro/');
+  assert.doesNotThrow(() => canonicalUrl('/juegos', 'https://example.test'));
+  assert.throws(() => canonicalUrl('/juegos', 'http://localhost:4321'));
+  const schema = pageSchema({ pathname: '/juegos/multiplo', breadcrumbs: [{ name: 'Inicio', url: '/' }, { name: 'Múltiplo' }], entity: { '@type': 'VideoGame', name: 'Múltiplo', author: undefined } });
+  assert.equal(schema['@context'], 'https://schema.org');
+  assert.equal(schema['@graph'][0]['@type'], 'BreadcrumbList');
+  assert.equal('author' in schema['@graph'][1], false);
+  assert.equal(cleanObject({ known: 'yes', unknown: undefined }).unknown, undefined);
+});
+
+test('generated publication output has one complete SEO and semantic contract per route', () => {
+  const dist = path.join(root, 'dist');
+  if (!fs.existsSync(dist)) return;
+  const newsSlugs = ['que-es-beastie-studio', 'por-que-creamos-multiplo', 'boxio-un-clasico-que-sigue-dando-juego', 'juegos-hechos-con-carino'];
+  const generatedRoutes = ['', 'juegos', 'juegos/multiplo', 'juegos/boxio', 'novedades', ...newsSlugs.map((slug) => `novedades/${slug}`), 'nosotros', 'apoyanos'];
+  for (const route of generatedRoutes) {
+    const html = fs.readFileSync(path.join(dist, route, 'index.html'), 'utf8');
+    for (const marker of ['lang="es"', 'name="description"', 'rel="canonical"', 'property="og:url"', 'property="og:image"', 'name="twitter:card"', 'application/ld+json']) assert.match(html, new RegExp(marker.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')), `${route || '/'} missing ${marker}`);
+    assert.equal((html.match(/<main\b/g) || []).length, 1, `${route || '/'} main count`);
+    assert.equal((html.match(/<h1\b/g) || []).length, 1, `${route || '/'} h1 count`);
+    assert.equal((html.match(/<title>/g) || []).length, 1, `${route || '/'} title count`);
+    assert.doesNotMatch(html, /localhost|file:\/\/|https:\/\/.*stitch/i);
+    for (const match of html.matchAll(/<a\b[^>]*target="_blank"[^>]*>/g)) assert.match(match[0], /rel="noopener noreferrer"/);
+    for (const match of html.matchAll(/<img\b[^>]*>/g)) {
+      assert.match(match[0], /\balt="[^"]+"/);
+      assert.match(match[0], /\bwidth="\d+"/);
+      assert.match(match[0], /\bheight="\d+"/);
+    }
+  }
+  const sitemap = fs.readFileSync(path.join(dist, 'sitemap.xml'), 'utf8');
+  assert.equal((sitemap.match(/<loc>/g) || []).length, generatedRoutes.length);
+  assert.doesNotMatch(sitemap, /index\.html|localhost|https:\/\/[^\s<]+\/\//);
+  assert.match(fs.readFileSync(path.join(dist, 'robots.txt'), 'utf8'), /Sitemap: https:\/\/beastie-studio\.silverman\.pro\/sitemap\.xml/);
+});
