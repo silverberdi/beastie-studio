@@ -3,6 +3,7 @@ slug: boxio-un-clasico-que-sigue-dando-juego
 title: "Boxio: un clásico que sigue dando juego"
 summary: Reglas sencillas, turnos interesantes y una nueva forma de disfrutar Puntos y Cajas.
 category: Boxio
+heroImage: /assets/editorial/boxio-duelo.webp
 ---
 
 Hay juegos que demuestran que no hacen falta reglas complicadas para crear decisiones interesantes. Puntos y Cajas es uno de ellos.

@@ -90,12 +90,23 @@ const isActive = (href) => href === '/' ? activePath === '/' : activePath.starts
       const updateParallax = () => {
         frame = 0;
         for (const hero of parallaxHeroes) {
-          const rect = hero.getBoundingClientRect();
-          const progress = Math.max(0, Math.min(1, -rect.top / Math.max(1, rect.height)));
-          const offset = reducedMotion.matches ? 0 : (progress - 0.5) * -180;
+          const scene = hero.querySelector('.hero-scroll-scene') || hero;
+          const layer = hero.querySelector('.parallax-hero-image');
+          const rect = scene.getBoundingClientRect();
+          const scrollable = Math.max(1, rect.height - window.innerHeight + 82);
+          const progress = Math.max(0, Math.min(1, -rect.top / scrollable));
+          const offsetPercent = reducedMotion.matches ? 0 : 110 - progress * 121;
+          const offsetPx = reducedMotion.matches ? 0 : (progress - 0.5) * -180;
           hero.style.setProperty('--parallax-progress', progress.toFixed(3));
-          hero.style.setProperty('--parallax-offset', `${offset.toFixed(2)}px`);
-          hero.style.setProperty('--parallax-text-offset', `${(offset * -0.12).toFixed(2)}px`);
+          hero.style.setProperty('--parallax-offset', `${offsetPx.toFixed(2)}px`);
+          hero.style.setProperty('--parallax-text-offset', reducedMotion.matches ? '0px' : `${(offsetPx * -0.12).toFixed(2)}px`);
+          if (layer) {
+            if (reducedMotion.matches) {
+              layer.style.transform = 'none';
+            } else {
+              layer.style.transform = `translate3d(0, ${offsetPercent.toFixed(2)}%, 0)`;
+            }
+          }
         }
       };
       const onScroll = () => { if (!frame) frame = requestAnimationFrame(updateParallax); };

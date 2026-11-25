@@ -3,6 +3,7 @@ slug: juegos-hechos-con-carino
 title: "Juegos hechos con cariño: nuestra forma de crear"
 summary: Diseñar con intención, respetar el tiempo de quien juega y mejorar con cada versión.
 category: Beastie Studio
+heroImage: /assets/editorial/boxio-estrategia.webp
 ---
 
 Cuando decimos «juegos hechos con cariño», hablamos de decisiones concretas: explicar con claridad, evitar barreras innecesarias y cuidar los detalles que ayudan a disfrutar una experiencia.

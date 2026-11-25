@@ -3,6 +3,7 @@ slug: por-que-creamos-multiplo
 title: Por qué creamos Múltiplo
 summary: ¿Y si practicar multiplicación pudiera sentirse más como jugar?
 category: Múltiplo
+heroImage: /assets/editorial/multiplo-personajes.webp
 ---
 
 Múltiplo nació de una necesidad concreta: ayudar a un niño de seis años a aprender a multiplicar sin que practicar se sintiera como una obligación.

@@ -4,7 +4,13 @@ const { data } = article;
 ---
 
 <article class:list={['news-card', { featured }]} data-category={data.category}>
-  <div class="news-card-art" aria-hidden="true"><span>{data.category === 'Múltiplo' ? '×' : data.category === 'Boxio' ? '□' : '♥'}</span></div>
+  {data.heroImage ? (
+    <div class="news-card-visual">
+      <img src={data.heroImage} alt={data.title} width="600" height="340" loading="lazy" decoding="async" />
+    </div>
+  ) : (
+    <div class="news-card-art" aria-hidden="true"><span>{data.category === 'Múltiplo' ? '×' : data.category === 'Boxio' ? '□' : '♥'}</span></div>
+  )}
   <div class="news-card-body">
     <p class="eyebrow">{data.category}</p>
     <h2><a href={`/novedades/${data.slug}`}>{data.title}</a></h2>

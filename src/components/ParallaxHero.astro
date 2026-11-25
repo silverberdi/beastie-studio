@@ -1,13 +1,37 @@
 ---
-const { image, imageAlt, eyebrow, title, titleLines = [title], description, ctaHref, ctaLabel } = Astro.props;
+const {
+  image,
+  imageAlt,
+  eyebrow,
+  title,
+  titleLines = [title],
+  description,
+  ctaHref,
+  ctaLabel,
+  secondaryHref = ctaHref === '/juegos' ? '/apoyanos' : undefined,
+  secondaryLabel = ctaHref === '/juegos' ? 'Apoyar el proyecto' : undefined
+} = Astro.props;
 ---
-<section class="parallax-hero" data-parallax style={`--hero-image: url('${image}')`}>
-  <img class="parallax-hero-image" src={image} alt={imageAlt} width="1672" height="941" srcset={`${image} 1672w`} sizes="100vw" fetchpriority="high" decoding="async" />
-  <div class="parallax-hero-overlay"></div>
-  <div class="shell parallax-hero-content">
-    <p class="eyebrow">{eyebrow}</p>
-    <h1>{titleLines.map((line, index) => <span class:list={{ 'hero-title-line': true, 'hero-title-accent': line === 'Pensar.' }}>{line}</span>)}</h1>
-    <p class="lead">{description}</p>
-    <div class="button-row"><a class="button button-primary" href={ctaHref}>{ctaLabel} <span aria-hidden="true">→</span></a></div>
+<section class="hero hero-parallax parallax-hero" data-parallax style={`--hero-image: url('${image}')`}>
+  <div class="hero-scroll-scene">
+    <div class="hero-sticky">
+      <div class="hero-image-layer" aria-hidden="true">
+        <img class="parallax-hero-image" src={image} alt={imageAlt} width="1672" height="941" srcset={`${image} 1672w`} sizes="100vw" fetchpriority="high" decoding="async" />
+      </div>
+      <div class="hero-text-layer parallax-hero-content">
+        <p class="eyebrow hero-eyebrow">{eyebrow}</p>
+        <h1 class="hero-title">{titleLines.map((line) => (
+          <span class:list={{ 'hero-title-line': true, 'hero-line': true, 'hero-title-accent': line === 'Pensar.' || line === 'juegos.' }}>
+            {line === 'Pensar.' || line === 'juegos.' ? <em>{line}</em> : line}
+          </span>
+        ))}</h1>
+        <p class="lead hero-summary">{description}</p>
+        <div class="button-row hero-actions">
+          <a class="button button-primary btn" href={ctaHref}>{ctaLabel} <span aria-hidden="true">→</span></a>
+          {secondaryHref && <a class="button button-secondary btn outline" href={secondaryHref}>{secondaryLabel} <span aria-hidden="true">↗</span></a>}
+        </div>
+      </div>
+      <div class="hero-scroll-hint" aria-hidden="true">Desliza para explorar <span>↓</span></div>
+    </div>
   </div>
 </section>
