@@ -45,8 +45,8 @@
         "offset": "90.00px"
       },
       {
-        "progress": "0.501",
-        "offset": "-0.12px"
+        "progress": "0.500",
+        "offset": "-0.01px"
       },
       {
         "progress": "1.000",
@@ -63,7 +63,7 @@
       "transform": "matrix(1, 0, 0, 1, 0, -1)",
       "duration": "0.18s, 0.18s, 0.18s, 0.18s"
     },
-    "buttonHoverTransform": "matrix(1, 0, 0, 1, 0, -0.565297)",
-    "buttonFocusTransform": "matrix(1, 0, 0, 1, 0, -1.07315)"
+    "buttonHoverTransform": "matrix(1, 0, 0, 1, 0, -0.566114)",
+    "buttonFocusTransform": "matrix(1, 0, 0, 1, 0, -1.07095)"
   }
 }
