@@ -73,6 +73,11 @@ test('catalog data maps each game to one canonical public URL', async () => {
     ['boxio', '/assets/v5/screenshots/boxio/boxio-partida-local.webp'],
   ]);
   assert.ok(games.every((game) => game.gallery?.length));
+  assert.deepEqual(games.map(({ slug, composition, compositionOrientation }) => [slug, composition, compositionOrientation]), [
+    ['multiplo', '/assets/v5/compositions/multiplo-composicion.webp', 'portrait'],
+    ['boxio', '/assets/v5/compositions/boxio-composicion.webp', 'landscape'],
+  ]);
+  assert.ok(games.every((game) => game.compositionWidth === 1600 && game.compositionHeight === 900));
 });
 test('game surfaces derive external Jugar and internal Conocer links from the registry', () => {
   const card = fs.readFileSync(path.join(root, 'src/components/GameCard.astro'), 'utf8');
@@ -85,6 +90,9 @@ test('game surfaces derive external Jugar and internal Conocer links from the re
   assert.doesNotMatch(detail, /multiplo\.silverman|boxio\.silverman/);
   assert.doesNotMatch(card, /illustration-.*concept\.png/);
   assert.doesNotMatch(detail, /Ilustración conceptual/);
+  assert.match(card, /game\.composition/);
+  const styles = fs.readFileSync(path.join(root, 'src/styles/global.css'), 'utf8');
+  assert.match(styles, /\.game-card-visual img[^}]*object-fit:contain/);
 });
 
 test('V5 heroes and screenshot manifest are copied without changing immutable assets', () => {
@@ -92,6 +100,8 @@ test('V5 heroes and screenshot manifest are copied without changing immutable as
   const assets = [
     ['assets/v5/hero-parque-beastie.webp', '106eacf7b7b937a47135aa7d67fa4c666546a87534c3ad850f23f26d30a84678'],
     ['assets/v5/hero-juegos-islass.webp', '3b9ca7e217a431e3bd9608b0e8b2153cdb4c01f5837b634938a8a48c37ace6b4'],
+    ['assets/v5/compositions/multiplo-composicion.webp', '2255d7735b6186a0ab2260f15ac2908e26fe0604c3eeb6d69083fa9285ffc1f4'],
+    ['assets/v5/compositions/boxio-composicion.webp', '3a36c353078cff9e52ae03268397a22b775c20dde91164415ff835c3df4655d8'],
   ];
   for (const [file, hash] of assets) assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(root, 'public', file))).digest('hex'), hash, file);
   for (const game of Object.values(manifest.games)) for (const image of game) {

@@ -62,8 +62,10 @@ await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
 const PORT = server.address().port;
 const BASE_URL = `http://127.0.0.1:${PORT}`;
 const browserMode = process.env.BEASTIE_BROWSER_MODE || 'desktop';
-const captureDir = path.join('openspec', 'changes', 'req-25-website-v54-correccion-de-fidelidad-visu', 'evidence', 'captures');
+const evidenceDir = path.join('openspec', 'changes', 'req-28-website-fidelidad-v54-verificable-parall', 'evidence');
+const captureDir = path.join(evidenceDir, 'captures');
 fs.mkdirSync(captureDir, { recursive: true });
+const browserEvidence = { mode: browserMode, viewport: browserMode === 'mobile' ? { width: 375, height: 812 } : { width: 1440, height: 900 }, routes: {} };
 const captureRoutes = browserMode === 'desktop'
   ? ['', 'juegos', 'juegos/multiplo', 'juegos/boxio', 'nosotros', 'novedades', 'novedades/por-que-creamos-multiplo', 'apoyanos']
   : ['', 'juegos', 'juegos/multiplo', 'juegos/boxio', 'novedades', 'apoyanos'];
@@ -78,7 +80,7 @@ async function runBrowserChecks() {
     const page = await browser.newPage();
 
     // --- Scenario A: Desktop Viewport Navigation & Layout ---
-    await page.setViewport({ width: browserMode === 'mobile' ? 390 : 1440, height: browserMode === 'mobile' ? 844 : 900 });
+    await page.setViewport({ width: browserMode === 'mobile' ? 375 : 1440, height: browserMode === 'mobile' ? 812 : 900 });
     async function captureFullRoutes() {
       for (const route of captureRoutes) {
         await page.goto(`${BASE_URL}/${route ? `${route}/` : 'index.html'}`, { waitUntil: 'domcontentloaded' });
@@ -87,6 +89,7 @@ async function runBrowserChecks() {
         const brokenImages = await page.$$eval('img', (images) => images.filter((image) => !image.complete || image.naturalWidth === 0).map((image) => image.src));
         assert.deepEqual(brokenImages, [], `Images must load on ${route || '/'}`);
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth), false, `Horizontal overflow on ${route || '/'}`);
+        browserEvidence.routes[route || '/'] = { overflow: false, images: brokenImages.length };
         const safeRoute = route.replaceAll('/', '-') || 'home';
         for (const [position, fraction] of [['start', 0], ['middle', .5], ['end', 1]]) {
           await page.evaluate((ratio) => window.scrollTo(0, (document.documentElement.scrollHeight - window.innerHeight) * ratio), fraction);
@@ -146,7 +149,38 @@ async function runBrowserChecks() {
       assert.ok(assetChecks.every(({ status }) => status === 200), `Public image responses must be 200: ${JSON.stringify(assetChecks)}`);
       const portfolio = await page.$$eval('.portfolio-project', (projects) => projects.map((project) => getComputedStyle(project).display));
       assert.deepEqual(portfolio, ['grid', 'grid'], 'Catalog must use the shared editorial project component');
+      const compositionChecks = await page.$$eval('.composition-card img', (images) => images.map((image) => ({ src: image.getAttribute('src'), fit: getComputedStyle(image).objectFit, ratio: image.naturalWidth / image.naturalHeight })));
+      assert.deepEqual(compositionChecks.map(({ src }) => src), ['/assets/v5/compositions/multiplo-composicion.webp', '/assets/v5/compositions/boxio-composicion.webp']);
+      assert.ok(compositionChecks.every(({ fit, ratio }) => fit === 'contain' && ratio > 1));
+      await page.goto(`${BASE_URL}/index.html`, { waitUntil: 'domcontentloaded' });
+      await page.evaluate(() => { document.documentElement.style.scrollBehavior = 'auto'; window.scrollTo(0, 0); });
+      const desktopHeroOffsets = [];
+      for (const fraction of [0, .5, 1]) {
+        await page.evaluate((ratio) => { const hero = document.querySelector('.parallax-hero'); window.scrollTo(0, hero.offsetTop + hero.offsetHeight * ratio); }, fraction);
+        await new Promise((resolve) => setTimeout(resolve, 80));
+        desktopHeroOffsets.push(await page.$eval('.parallax-hero', (hero) => ({ progress: hero.style.getPropertyValue('--parallax-progress'), offset: hero.style.getPropertyValue('--parallax-offset') })));
+      }
+      assert.ok(new Set(desktopHeroOffsets.map(({ offset }) => offset)).size > 1, `Desktop hero movement must be observable: ${JSON.stringify(desktopHeroOffsets)}`);
+      browserEvidence.hero = { offsets: desktopHeroOffsets };
+      const interactionStates = await page.evaluate(() => {
+        const button = document.querySelector('.button-primary');
+        const link = document.querySelector('.site-nav a');
+        const sample = (element, pseudo = null) => ({ transform: getComputedStyle(element, pseudo).transform, duration: getComputedStyle(element).transitionDuration });
+        return { button: sample(button), nav: sample(link) };
+      });
+      assert.ok(interactionStates.button.duration.split(',').some((value) => Number.parseFloat(value) >= .18 && Number.parseFloat(value) <= .28), `CTA transition outside 180-280ms: ${JSON.stringify(interactionStates)}`);
+      await page.evaluate(() => window.scrollTo(0, 0));
+      const buttonHandle = await page.$('.button-primary');
+      const buttonBox = await buttonHandle.boundingBox();
+      await page.mouse.move(buttonBox.x + buttonBox.width / 2, buttonBox.y + buttonBox.height / 2);
+      await new Promise((resolve) => setTimeout(resolve, 40));
+      const buttonHoverTransform = await page.$eval('.button-primary', (button) => getComputedStyle(button).transform);
+      await page.focus('.button-primary');
+      const buttonFocusTransform = await page.$eval('.button-primary', (button) => getComputedStyle(button).transform);
+      assert.notEqual(buttonFocusTransform, 'none', 'CTA focus must elevate');
+      browserEvidence.interactions = { ...interactionStates, buttonHoverTransform, buttonFocusTransform };
       await captureFullRoutes();
+      fs.writeFileSync(path.join(evidenceDir, `browser-${browserMode}.json`), JSON.stringify(browserEvidence, null, 2));
       console.log('PASS Chromium desktop: support route metadata, pending channels, conceptual alt, and 0 horizontal overflow.');
       return;
     }
@@ -195,9 +229,11 @@ async function runBrowserChecks() {
     assert.equal(mobileOverflow, false, 'Horizontal overflow detected on mobile');
 
     await page.goto(`${BASE_URL}/index.html`, { waitUntil: 'domcontentloaded' });
+    await page.evaluate(() => { document.documentElement.style.scrollBehavior = 'auto'; window.scrollTo(0, 0); });
 
     assert.equal(await page.$eval('.parallax-hero', (hero) => hero.style.getPropertyValue('--hero-image').includes('hero-parque-beastie.webp')), true);
     const heroOffsets = [];
+    const heroTextOffsets = [];
     for (const fraction of [0, .5, 1]) {
       await page.evaluate((ratio) => {
         const hero = document.querySelector('.parallax-hero');
@@ -205,9 +241,11 @@ async function runBrowserChecks() {
       }, fraction);
       await new Promise((resolve) => setTimeout(resolve, 80));
       heroOffsets.push(await page.$eval('.parallax-hero', (hero) => ({ progress: hero.style.getPropertyValue('--parallax-progress'), offset: hero.style.getPropertyValue('--parallax-offset') })));
+      heroTextOffsets.push(await page.$eval('.parallax-hero-content', (content) => getComputedStyle(content).transform));
     }
     assert.ok(new Set(heroOffsets.map(({ offset }) => offset)).size > 1, `Hero image movement must be observable: ${JSON.stringify(heroOffsets)}`);
     assert.ok(heroOffsets.every(({ progress }) => progress !== ''), 'Hero progress must be exposed at each measured stage');
+    assert.ok(new Set(heroTextOffsets).size > 1, `Hero text movement must be observable: ${JSON.stringify(heroTextOffsets)}`);
     const cls = await page.evaluate(() => performance.getEntriesByType('layout-shift').reduce((sum, entry) => sum + (entry.hadRecentInput ? 0 : entry.value), 0));
     assert.ok(Number.isFinite(cls), 'CLS measurement must be numeric');
     console.log(`E2E mobile: home hero stages=${JSON.stringify(heroOffsets)} CLS=${cls}`);
@@ -250,6 +288,7 @@ async function runBrowserChecks() {
     assert.equal(await noScript.$$eval('a[href]', (links) => links.length > 8), true, 'No-JS fallback keeps navigation and content links available');
     assert.equal(await noScript.$eval('h1', (heading) => getComputedStyle(heading).visibility !== 'hidden'), true, 'No-JS fallback keeps hero content visible');
     await noScript.close();
+    browserEvidence.hero = { offsets: heroOffsets, textTransforms: heroTextOffsets, cls };
 
     // Navigate to /apoyanos via mobile CTA
     assert.equal(await page.$eval('.footer-support', (link) => link.getAttribute('href')), '/apoyanos', 'Footer support link must target /apoyanos');
@@ -281,6 +320,7 @@ async function runBrowserChecks() {
     assert.equal(await page.$eval('.support-illustration', (image) => image.getAttribute('alt').includes('Ilustración conceptual')), true);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth), false, 'Horizontal overflow detected on support page');
     await captureFullRoutes();
+    fs.writeFileSync(path.join(evidenceDir, `browser-${browserMode}.json`), JSON.stringify(browserEvidence, null, 2));
 
     console.log('PASS Chromium mobile: menu open/close toggle, aria-expanded, visible focus, CTA, support links, and 0 horizontal overflow.');
     console.log('PASS Real Chromium browser smoke verification complete and verified.');

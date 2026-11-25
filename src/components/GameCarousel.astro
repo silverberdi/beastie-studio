@@ -2,7 +2,7 @@
 import GameCard from './GameCard.astro';
 const { games } = Astro.props;
 ---
-<div class="game-carousel" data-game-carousel aria-label="Juegos destacados">
+<div class="game-carousel" data-game-carousel data-game-count={games.length} aria-label="Juegos destacados" tabindex="0">
   <div class="game-carousel-viewport">
     <div class="game-carousel-track">
       {games.map((game, index) => <div class="game-slide" data-slide={index} aria-hidden={index !== 0}><GameCard game={game} index={index} /></div>)}
@@ -33,7 +33,7 @@ const { games } = Astro.props;
     root.querySelector('[data-carousel-prev]')?.addEventListener('click', () => render(active - 1));
     root.querySelector('[data-carousel-next]')?.addEventListener('click', () => render(active + 1));
     dots.forEach((dot, index) => dot.addEventListener('click', () => render(index)));
-    root.addEventListener('keydown', (event) => { if (event.key === 'ArrowLeft') render(active - 1); if (event.key === 'ArrowRight') render(active + 1); });
+    root.addEventListener('keydown', (event) => { if (event.key === 'ArrowLeft') { event.preventDefault(); render(active - 1); } if (event.key === 'ArrowRight') { event.preventDefault(); render(active + 1); } });
     let startX = 0;
     root.addEventListener('touchstart', (event) => { startX = event.changedTouches[0].clientX; }, { passive: true });
     root.addEventListener('touchend', (event) => { const delta = event.changedTouches[0].clientX - startX; if (Math.abs(delta) > 40) render(active + (delta < 0 ? 1 : -1)); }, { passive: true });
