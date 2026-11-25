@@ -3,6 +3,7 @@ slug: que-es-beastie-studio
 title: Qué es Beastie Studio y por qué hacemos juegos
 summary: Un lugar para descubrir, pensar y compartir.
 category: Beastie Studio
+heroImage: /assets/editorial/multiplo-taller-dragon.webp
 ---
 
 Beastie Studio nace de una idea sencilla: crear videojuegos que valga la pena compartir. Nos gusta que un juego pueda despertar una pregunta, ayudarnos a aprender algo o invitarnos a buscar otra estrategia.

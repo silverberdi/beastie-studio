@@ -5,7 +5,7 @@ const { games } = Astro.props;
 <div class="game-carousel" data-game-carousel data-game-count={games.length} aria-label="Juegos destacados" tabindex="0">
   <div class="game-carousel-viewport">
     <div class="game-carousel-track">
-      {games.map((game, index) => <div class="game-slide" data-slide={index} aria-hidden={index !== 0}><GameCard game={game} index={index} /></div>)}
+      {games.map((game, index) => <div class="game-slide" data-slide={index} aria-hidden={index !== 0}><GameCard game={game} index={index} variant="home" /></div>)}
     </div>
   </div>
   <div class="carousel-controls">
