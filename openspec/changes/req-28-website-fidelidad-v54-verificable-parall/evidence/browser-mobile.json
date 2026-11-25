@@ -1,0 +1,55 @@
+{
+  "mode": "mobile",
+  "viewport": {
+    "width": 375,
+    "height": 812
+  },
+  "routes": {
+    "/": {
+      "overflow": false,
+      "images": 0
+    },
+    "juegos": {
+      "overflow": false,
+      "images": 0
+    },
+    "juegos/multiplo": {
+      "overflow": false,
+      "images": 0
+    },
+    "juegos/boxio": {
+      "overflow": false,
+      "images": 0
+    },
+    "novedades": {
+      "overflow": false,
+      "images": 0
+    },
+    "apoyanos": {
+      "overflow": false,
+      "images": 0
+    }
+  },
+  "hero": {
+    "offsets": [
+      {
+        "progress": "0.000",
+        "offset": "90.00px"
+      },
+      {
+        "progress": "0.500",
+        "offset": "0.00px"
+      },
+      {
+        "progress": "1.000",
+        "offset": "-90.00px"
+      }
+    ],
+    "textTransforms": [
+      "matrix(1, 0, 0, 1, 0, -10.8)",
+      "matrix(1, 0, 0, 1, 0, 0)",
+      "matrix(1, 0, 0, 1, 0, 10.8)"
+    ],
+    "cls": 0
+  }
+}
